@@ -44,6 +44,8 @@
     <string name="system_serval_meshms_send_action">org.servalproject.meshms.SEND_MESHMS</string>
     <string name="system_serval_mesh_receive_action">org.servalproject.meshms.RECEIVE_MESHMS</string>
     <string name="system_serval_meshms_extra_name">simple</string>
+    <string name="title_activity_messages_list">MessagesList</string>
+    <string name="title_activity_show_conversation">ShowConversationActivity</string>
 
 
 
