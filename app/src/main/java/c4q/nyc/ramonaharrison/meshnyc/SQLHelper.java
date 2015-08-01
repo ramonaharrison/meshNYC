@@ -52,6 +52,11 @@ public class SQLHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void deleteTableShelters() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(SQL_DELETE_ENTRIES);
+    }
+
     public static abstract class Columns implements BaseColumns {
         public static final String TABLE_NAME_SHELTERS = "shelters";
         public static final String COLUMN_CITY = "city";
