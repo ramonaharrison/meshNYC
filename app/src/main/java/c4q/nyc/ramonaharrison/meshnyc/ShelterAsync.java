@@ -3,16 +3,13 @@ package c4q.nyc.ramonaharrison.meshnyc;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -22,33 +19,25 @@ import javax.net.ssl.HttpsURLConnection;
 public class ShelterAsync extends AsyncTask<String, Void, Void> {
 
     private static final String API_DATA = "https://searchbertha-hrd.appspot.com/_ah/api/search/v1/zipcodes/10101/programs?api_key=3007cb21281f817773bd7a1aff9adb75&serviceTag=emergency%20shelter";
-    private ArrayList<Shelter> shelters;
     private Context context;
 
     public ShelterAsync(Context context) {
         this.context = context;
     }
 
-//        //create a listener interface to know when jobAsync is done loading data
-//        public interface MyListener {
-//            void onLoadComplete(List<JobPosition> jobs);
-//        }
-//
-//        private MyListener listener;
-//
-//        public void setListener(MyListener listener) {
-//            this.listener = listener;
-//        }
-
     @Override
     protected Void doInBackground(String... params) {
         String result = null;
         try {
+
+            //open connection
             result = openConnection();
         } catch (IOException e) {
             e.printStackTrace();
         }
         try {
+
+            //parse JSON
             parseJSON(result);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -57,40 +46,36 @@ public class ShelterAsync extends AsyncTask<String, Void, Void> {
         return null;
     }
 
-
-
-//        @Override
-//        protected void onPostExecute(ArrayList<JobPosition> jobPositions) {
-//            super.onPostExecute(jobPositions);
-//            if (listener != null) {
-//                listener.onLoadComplete(jobPositions);
-//            }
-//        }
-
     //method to parse JSON
     public void parseJSON(String rawString) throws JSONException {
+        String city;
         JSONObject obj = new JSONObject(rawString);
         JSONArray main = obj.getJSONArray("programs");
-        int num = main.length();
-        Log.i("yuliya", main.length() + "" );
 
-        for (int i = 0; i < num; i++) {
+        for (int i = 0; i < main.length(); i++) {
             JSONObject program = main.getJSONObject(i);
-            JSONArray nextStep = program.getJSONArray("offices");
-            Log.i("yuliya", i + "" );
+            JSONArray offices = program.getJSONArray("offices");
 
+            for (int k = 0; k < offices.length(); k++) {
+                JSONObject info = offices.getJSONObject(k);
+                JSONObject location = info.getJSONObject("location");
+                double latitude = location.getDouble("latitude");
+                double longitude = location.getDouble("longitude");
+                if (info.has("city")) {
+                    city = info.getString("city");
+                }
+                else{
+                    city = "N/A";
+                }
+                String address = info.getString("address1");
+                String postal = info.getString("postal");
 
-//            for (int k = 0; k < nextStep.length(); k++) {
-//                JSONObject info = nextStep.getJSONObject(k);
-//                JSONObject location = info.getJSONObject("location");
-//                double latitude = location.getLong("latitude");
-//                double longitude = location.getLong("longitude");
-//                String city = info.getString("city");
-//                String address = info.getString("address1");
-//                String postal = info.getString("postal");
-//                Shelter shelter = new Shelter(city, address, latitude, longitude, postal);
-//                Log.i("yuliya", city + " " + address + " " + postal + " " + latitude + " " + longitude);
-//            }
+                //insert a row in db
+                SQLHelper helper = SQLHelper.getInstance(context);
+                helper.insertRow(city, address, latitude, longitude, postal);
+
+                Log.i("yuliya", city + " " + address + " " + postal + " " + latitude + " " + longitude);
+            }
         }
     }
 
