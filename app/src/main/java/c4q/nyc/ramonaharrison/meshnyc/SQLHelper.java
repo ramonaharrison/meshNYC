@@ -1,5 +1,6 @@
 package c4q.nyc.ramonaharrison.meshnyc;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -15,12 +16,12 @@ public class SQLHelper extends SQLiteOpenHelper {
             Columns._ID + " INTEGER PRIMARY KEY," +
             Columns.COLUMN_CITY + " TEXT," +
             Columns.COLUMN_ADDRESS + " TEXT," +
+            Columns.COLUMN_LATITUDE + " INTEGER," +
             Columns.COLUMN_LONGITUDE + " INTEGER," +
-            Columns.COLUMN_LATITUDE + " INTEGER" +
             Columns.COLUMN_POSTAL + " TEXT" +
             " )";
 
-    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + Columns.TABLE_NAME_SHELTERS      ;
+    private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + Columns.TABLE_NAME_SHELTERS;
 
     private static SQLHelper INSTANCE;
 
@@ -51,9 +52,26 @@ public class SQLHelper extends SQLiteOpenHelper {
         public static final String TABLE_NAME_SHELTERS = "shelters";
         public static final String COLUMN_CITY = "city";
         public static final String COLUMN_ADDRESS = "address";
-        public static final String COLUMN_LONGITUDE = "longitude";
-        public static final String COLUMN_LATITUDE = "latitude";
+        public static final String COLUMN_LATITUDE = "longitude";
+        public static final String COLUMN_LONGITUDE = "latitude";
         public static final String COLUMN_POSTAL = "postal";
+    }
+
+    public void insertRow(String city, String address, double latitude, double longitude, String postal)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Columns.COLUMN_CITY, city);
+        values.put(Columns.COLUMN_ADDRESS, address);
+        values.put(Columns.COLUMN_LONGITUDE, latitude);
+        values.put(Columns.COLUMN_LATITUDE, longitude);
+        values.put(Columns.COLUMN_POSTAL, postal);
+
+        db.insert(
+                Columns.TABLE_NAME_SHELTERS,
+                null,
+                values);
     }
 }
 
