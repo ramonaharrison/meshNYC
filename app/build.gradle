@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "c4q.nyc.ramonaharrison.meshnyc"
-        minSdkVersion 8
+        minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -22,4 +22,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.google.android.gms:play-services:7.5.0'
+    compile 'com.google.android.gms:play-services-maps:7.5.0'
+    compile 'com.google.maps.android:android-maps-utils:x.y.z'
+    compile 'com.google.maps.android:android-maps-utils:0.4+'
 }
