@@ -4,13 +4,15 @@ package c4q.nyc.ramonaharrison.meshnyc;
  * Created by July on 8/1/15.
  */
 public class Shelter {
+    private int _id;
     private String city;
     private String address;
     private double latitude;
     private double longitude;
     private String postal;
 
-    public Shelter(String city, String address, double latitude, double longitude, String postal){
+    public Shelter(int _id, String city, String address, double latitude, double longitude, String postal){
+        this._id = _id;
         this.address = address;
         this.city = city;
         this.latitude = latitude;

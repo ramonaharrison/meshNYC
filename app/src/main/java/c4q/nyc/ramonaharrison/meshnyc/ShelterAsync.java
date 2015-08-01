@@ -10,13 +10,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by July on 8/1/15.
  */
-public class ShelterAsync extends AsyncTask<String, Void, Void> {
+public class ShelterAsync extends AsyncTask<Void, Void, ArrayList<Shelter>> {
 
     private static final String API_DATA = "https://searchbertha-hrd.appspot.com/_ah/api/search/v1/zipcodes/10101/programs?api_key=3007cb21281f817773bd7a1aff9adb75&serviceTag=emergency%20shelter";
     private Context context;
@@ -26,7 +28,7 @@ public class ShelterAsync extends AsyncTask<String, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(String... params) {
+    protected ArrayList<Shelter> doInBackground(Void... voids) {
         String result = null;
         try {
 
@@ -43,7 +45,7 @@ public class ShelterAsync extends AsyncTask<String, Void, Void> {
             e.printStackTrace();
         }
 
-        return null;
+        return loadData();
     }
 
     //method to parse JSON
@@ -91,5 +93,11 @@ public class ShelterAsync extends AsyncTask<String, Void, Void> {
         }
         String resultString = stringBuilder.toString();
         return resultString;
+    }
+
+    //gets all shelters from table Shelters
+    public ArrayList<Shelter> loadData() {
+        SQLHelper helper = SQLHelper.getInstance(context);
+        return helper.getAllShelters();
     }
 }
