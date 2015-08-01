@@ -2,9 +2,13 @@ package c4q.nyc.ramonaharrison.meshnyc;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SQLHelper extends SQLiteOpenHelper {
 
@@ -72,6 +76,36 @@ public class SQLHelper extends SQLiteOpenHelper {
                 Columns.TABLE_NAME_SHELTERS,
                 null,
                 values);
+    }
+
+    public ArrayList<Shelter> getAllShelters()
+    {
+        String[] projection = {
+                Columns._ID,
+                Columns.COLUMN_CITY,
+                Columns.COLUMN_ADDRESS,
+                Columns.COLUMN_LATITUDE,
+                Columns.COLUMN_LONGITUDE,
+                Columns.COLUMN_POSTAL
+        };
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        ArrayList<Shelter> shelters = new ArrayList<>();
+
+        Cursor cursor = db.query(Columns.TABLE_NAME_SHELTERS, projection, null, null, null, null, null);
+        while(cursor.moveToNext())
+        {
+            shelters.add(new Shelter(
+                    cursor.getInt(cursor.getColumnIndex(Columns._ID)),
+                    cursor.getString(cursor.getColumnIndex(Columns.COLUMN_CITY)),
+                    cursor.getString(cursor.getColumnIndex(Columns.COLUMN_ADDRESS)),
+                    cursor.getDouble(cursor.getColumnIndex(Columns.COLUMN_LATITUDE)),
+                    cursor.getDouble(cursor.getColumnIndex(Columns.COLUMN_LONGITUDE)),
+                    cursor.getString(cursor.getColumnIndex(Columns.COLUMN_POSTAL))));
+        }
+        cursor.close();
+        return shelters;
     }
 }
 
