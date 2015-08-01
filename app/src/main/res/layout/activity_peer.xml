@@ -22,6 +22,23 @@
             android:layout_height="wrap_content"
             android:id="@+id/peer_list_view" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="No Connections"
+            android:layout_margin="40dp"
+            android:layout_gravity="center"
+            android:id="@+id/progress_textview" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progress_bar"
+            android:layout_margin="20dp"
+            android:layout_gravity="center" />
+
 
     </LinearLayout>
 
