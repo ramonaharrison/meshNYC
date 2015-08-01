@@ -9,9 +9,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="5dp"
-        android:textSize="22sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:ellipsize="end"
+        android:text="RECIEVER"
+        android:gravity="center_horizontal"
         />
 
     <EditText

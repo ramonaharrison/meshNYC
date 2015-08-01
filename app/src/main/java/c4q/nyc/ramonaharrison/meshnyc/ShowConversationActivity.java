@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -28,12 +29,13 @@ public class ShowConversationActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
-                Message message = new Message("ID", "SEND", false, "NAME SENT TO HERE", currentTimestamp.toString(), messageContent.getText().toString());
-                Log.v("timestamp", currentTimestamp.toString());
+                Message message = new Message("ID", "SEND", 0, "NAME SENT TO HERE", currentTimestamp.toString(), messageContent.getText().toString());
 
                 SQLHelper helper = SQLHelper.getInstance(getApplicationContext());
                 helper.insertMessageRow(message.getId(), message.getIntention(), message.getIsSent(), message.getName(), message.getTimeStamp(), message.getMessageContent());
+                messageContent.setText("");
 
+//                Toast.makeText(getApplicationContext(), helper.getAllMessages(), Toast.LENGTH_SHORT).show();
             }
         });
 

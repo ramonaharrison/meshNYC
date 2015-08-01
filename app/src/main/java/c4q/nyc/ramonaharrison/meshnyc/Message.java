@@ -6,12 +6,12 @@ package c4q.nyc.ramonaharrison.meshnyc;
 public class Message {
     private String id;
     private String intention;
-    private boolean isSent;
+    private int isSent;
     private String name;
     private String timeStamp;
     private String messageContent;
 
-    public Message(String id, String intention, boolean isSent, String name, String timeStamp, String messageContent) {
+    public Message(String id, String intention, int isSent, String name, String timeStamp, String messageContent) {
         this.id = id;
         this.intention = intention;
         this.isSent = isSent;
@@ -36,11 +36,11 @@ public class Message {
         this.intention = intention;
     }
 
-    public boolean getIsSent() {
+    public int getIsSent() {
         return isSent;
     }
 
-    public void setIsSent(boolean isSent) {
+    public void setIsSent(int isSent) {
         this.isSent = isSent;
     }
 

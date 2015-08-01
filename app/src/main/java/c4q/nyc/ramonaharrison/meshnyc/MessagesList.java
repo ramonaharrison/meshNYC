@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,10 @@ public class MessagesList extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messages_list);
 
+
         ArrayList<String> messageListArray = new ArrayList<>();
+
+        // TODO: PULL IN ACTUAL MESSAGE THREADS FROM DIFFERENT 'NAMES'
         messageListArray.add("HELLO");
         messageListArray.add("BYE");
 
@@ -53,6 +57,8 @@ public class MessagesList extends ActionBarActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent showMessageIntent = new Intent(getApplicationContext(), ShowConversationActivity.class);
                 startActivity(showMessageIntent);
+
+
             }
         });
 
