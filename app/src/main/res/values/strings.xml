@@ -9,6 +9,8 @@
 
 
     <string name="action_settings">Settings</string>
-    <string name="title_activity_sign_up_activty">SignUpActivty</string>
+    <string name="title_activity_sign_up_activty">SignUpActivity</string>
     <string name="title_activity_choose_contacts">ChooseContactsActivity</string>
+    <string name="find_peers">Search for Connections</string>
+    <string name="title_activity_main">MainActivity</string>
 </resources>
