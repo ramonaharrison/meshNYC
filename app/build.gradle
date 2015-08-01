@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "c4q.nyc.ramonaharrison.meshnyc"
-        minSdkVersion 8
+        minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
