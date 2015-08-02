@@ -29,7 +29,7 @@ public class ChooseContactsActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_choose_contacts);
+//        setContentView(R.layout.activity_choose_contacts);
 
 
         //create a cursor to query the Contacts on the device to start populating a listview
