@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="c4q.nyc.ramonaharrison.meshnyc">
 
-<<<<<<< HEAD
+
 
     <permission
         android:name="c4q.nyc.ramonaharrison.meshnyc.permission.MAPS_RECEIVE"
@@ -21,7 +21,7 @@
         android:glEsVersion="0x00020000"
         android:required="true"/>
 
-=======
+
     <uses-sdk android:minSdkVersion="14" />
     <uses-feature android:name="android.hardware.wifi.direct" />
 
@@ -29,10 +29,9 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
->>>>>>> 41285bf64f96f48fabb7edc7b19c295b52efddbe
+
 
     <application
         android:allowBackup="true"
