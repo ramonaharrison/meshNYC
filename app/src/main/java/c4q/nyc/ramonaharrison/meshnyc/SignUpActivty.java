@@ -14,8 +14,9 @@ public class SignUpActivty extends ActionBarActivity {
 
     TextView welcomeMessage;
     EditText ZIP_CODE, firstName, lastName;
-    public static String userName;
+    public static String userName = "", zipCode = "";
     Button submit;
+    Button contacts;
     TextView savedZip, savedUsername;
 
 
@@ -34,12 +35,9 @@ public class SignUpActivty extends ActionBarActivity {
 
         //getting zip information (if it exists)
         prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
-        final String zipString = prefs.getString(ZIP_CODE_KEY, "");
-        final String userNameString = prefs.getString(USERNAME_CODE_KEY, "");
-        if (zipString != null && userName != null) {
-            savedZip.setText("your zip code is: " + zipString);
-            savedUsername.setText("your username is:" + userName);
-        }
+        zipCode = prefs.getString(ZIP_CODE_KEY, "");
+        userName = prefs.getString(USERNAME_CODE_KEY, "");
+
 
         //welcome message
         welcomeMessage = (TextView) findViewById(R.id.welcome_message);
@@ -47,6 +45,7 @@ public class SignUpActivty extends ActionBarActivity {
         //zip views
         ZIP_CODE = (EditText) findViewById(R.id.zip_code);
         submit = (Button) findViewById(R.id.submit_button);
+        contacts = (Button) findViewById(R.id.contact_invite_button);
         savedZip = (TextView) findViewById(R.id.saved_zip_code);
 
 
@@ -56,17 +55,26 @@ public class SignUpActivty extends ActionBarActivity {
         savedUsername = (TextView) findViewById(R.id.saved_username);
 
 
+        if (!zipCode.equals("") && !userName.equals("")) {
+            savedZip.setText("your zip code is: " + zipCode);
+            savedUsername.setText("your username is:" + userName);
+        }
+
         //submitting new zip code/moving on to next screen
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //validating zip length
-                if (ZIP_CODE != null && userName != null) {
+                if (!ZIP_CODE.equals("") && !firstName.equals("") && !lastName.equals("")) {
                     editor = prefs.edit();
-                    editor.putString(ZIP_CODE_KEY, ZIP_CODE.getText().toString());
+                    zipCode = ZIP_CODE.getText().toString();
+                    editor.putString(ZIP_CODE_KEY, zipCode);
                     userName = firstName.getText().toString() + lastName.getText().toString();
                     editor.putString(USERNAME_CODE_KEY, userName);
                     editor.apply();
+                    savedZip.setText("your zip code is: " + ZIP_CODE.getText().toString());
+                    savedUsername.setText("your username is: " + userName);
+                } else {
                     savedZip.setText("your zip code is: " + ZIP_CODE.getText().toString());
                     savedUsername.setText("your username is: " + userName);
                 }
@@ -82,5 +90,14 @@ public class SignUpActivty extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+
+        contacts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplication(), ChooseContactsActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

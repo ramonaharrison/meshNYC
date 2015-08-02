@@ -10,20 +10,7 @@
     android:layout_height="match_parent">
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Check public Alert"
-        android:id="@+id/button2"
-        android:layout_gravity="center_horizontal" />
 
-
-    <Button
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/nycoem"
-        android:id="@+id/twitter"
-        android:layout_gravity="center_horizontal" />
 
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
