@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 
 
@@ -58,7 +57,7 @@ public class ChooseContactsActivity extends ListActivity {
                 phoneNumbers = new ArrayList<String>();
                 String data = Cursor1.getString(Cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 phoneNumbers.add(data);
-                view.setBackgroundColor(Color.BLUE);
+                view.setBackgroundColor(Color.parseColor("#80c1e3"));
                 Log.d("data", "" + data);
             }
         });

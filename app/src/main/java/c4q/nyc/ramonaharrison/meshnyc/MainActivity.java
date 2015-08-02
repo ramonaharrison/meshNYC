@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
         messagesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent messageIntent = new Intent(getApplicationContext(), MessageActivity.class);
+                Intent messageIntent = new Intent(getApplicationContext(), PeerActivity.class);
                 startActivity(messageIntent);
             }
         });
@@ -65,14 +65,6 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Intent mapIntent = new Intent(getApplicationContext(), MapActivity.class);
                 startActivity(mapIntent);
-            }
-        });
-        Button settingsButton = (Button) findViewById(R.id.settings);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent settingsIntent = new Intent(getApplicationContext(), PeerActivity.class);
-                startActivity(settingsIntent);
             }
         });
 

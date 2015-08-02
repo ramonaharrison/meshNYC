@@ -71,7 +71,12 @@ public class SignUpActivty extends ActionBarActivity {
                     editor.apply();
                     savedZip.setText("your zip code is: " + ZIP_CODE.getText().toString());
                     savedUsername.setText("your username is: " + userName);
+                } else {
+                    savedZip.setText("your zip code is: " + ZIP_CODE.getText().toString());
+                    savedUsername.setText("your username is: " + userName);
                 }
+
+
 
 
                 //getting rid of views to add new fields

@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
     </style>
 
@@ -12,6 +12,11 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingTop">10dp</item>
+    </style>
+
+    <style name="header">
+        <item name="android:textColor">#80c1e3</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
 
