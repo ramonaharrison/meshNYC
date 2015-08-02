@@ -1,3 +1,4 @@
+
 package c4q.nyc.ramonaharrison.meshnyc;
 
 import android.content.Intent;
@@ -50,7 +51,8 @@ public class MessagesList extends ActionBarActivity {
                 messageView.setText("Message Preview");
                 return view;
             }
-        };        messageList.setAdapter(adapter);
+        };
+        messageList.setAdapter(adapter);
 
         messageList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -63,6 +65,6 @@ public class MessagesList extends ActionBarActivity {
         });
 
     }
-
-
 }
+
+
