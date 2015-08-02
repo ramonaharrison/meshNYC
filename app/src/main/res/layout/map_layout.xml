@@ -17,6 +17,15 @@
         android:id="@+id/button2"
         android:layout_gravity="center_horizontal" />
 
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="NYC Emergency Mgmnt twitter"
+        android:id="@+id/twitter"
+        android:layout_gravity="center_horizontal" />
+
+
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/map"
         android:layout_width="match_parent"
@@ -35,7 +44,6 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:visibility="gone"
         >
     </ProgressBar>
     </RelativeLayout>
