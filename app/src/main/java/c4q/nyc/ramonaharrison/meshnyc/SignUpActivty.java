@@ -73,10 +73,10 @@ public class SignUpActivty extends ActionBarActivity {
                     editor.putString(USERNAME_CODE_KEY, userName);
                     editor.apply();
                     savedZip.setText("your zip code is: " + ZIP_CODE.getText().toString());
-                    savedUsername.setText("your username is: " + userName);
+                    savedUsername.setText("your username is:   " + userName);
                 } else {
-                    savedZip.setText("your zip code is: " + ZIP_CODE.getText().toString());
-                    savedUsername.setText("your username is: " + userName);
+                    savedZip.setText("your zip code is:   " + ZIP_CODE.getText().toString());
+                    savedUsername.setText("your username is:   " + userName.toUpperCase());
                 }
 
 
