@@ -26,4 +26,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-maps:7.5.0'
     compile 'com.google.maps.android:android-maps-utils:x.y.z'
     compile 'com.google.maps.android:android-maps-utils:0.4+'
+
 }

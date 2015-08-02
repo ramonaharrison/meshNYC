@@ -22,6 +22,7 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
 
     private static final String API_DATA = "https://searchbertha-hrd.appspot.com/_ah/api/search/v1/zipcodes/10101/programs?api_key=3007cb21281f817773bd7a1aff9adb75&serviceTag=emergency%20shelter";
     private Context context;
+    private static final String DATABASE_CREATED = "database_created";
 
     public ShelterAsync(Context context) {
         this.context = context;
@@ -29,9 +30,14 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
+
+        //delete table shelters with old data and create a new table shelters with new data
+        SQLHelper helper = SQLHelper.getInstance(context);
+        helper.updateTableShelters();
+
+
         String result = null;
         try {
-
             //open connection
             result = openConnection();
         } catch (IOException e) {
@@ -75,11 +81,13 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
                 //insert a row in db
                 SQLHelper helper = SQLHelper.getInstance(context);
                 helper.insertRow(city, address, latitude, longitude, postal);
+
                 count++;
 
 
                 Log.i("yuliya", city + " " + address + " " + postal + " " + latitude + " " + longitude);
                 Log.i("yuliya", "number of shelters" + count);
+
             }
         }
     }
@@ -97,6 +105,7 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
         String resultString = stringBuilder.toString();
         return resultString;
     }
+
 }
 
 //    //gets all shelters from table Shelters
