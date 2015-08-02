@@ -11,11 +11,11 @@ public class Message {
     private String timeStamp;
     private String messageContent;
 
-    public Message(String id, String intention, int isSent, String name, String timeStamp, String messageContent) {
+    public Message(String id, String intention, int isSent, String username, String timeStamp, String messageContent) {
         this.id = id;
         this.intention = intention;
         this.isSent = isSent;
-        this.name = name;
+        this.name = username;
         this.timeStamp = timeStamp;
         this.messageContent = messageContent;
     }
