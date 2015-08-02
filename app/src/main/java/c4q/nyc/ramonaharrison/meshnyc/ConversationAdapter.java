@@ -2,7 +2,6 @@ package c4q.nyc.ramonaharrison.meshnyc;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,7 @@ public class ConversationAdapter extends BaseAdapter{
             if(convertView == null)
             {
                 holder = new ViewHolder();
-                convertView = LayoutInflater.from(mContext).inflate(R.layout.show_conversation_item_them, parent, false);
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.message_item, parent, false);
                 holder.message = (TextView) convertView.findViewById(R.id.message_text);
                 convertView.setTag(holder);
             }

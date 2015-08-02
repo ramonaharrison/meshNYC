@@ -4,7 +4,6 @@ package c4q.nyc.ramonaharrison.meshnyc;
  * Created by alvin2 on 8/1/15.
  */
 public class Message {
-    private int _id;
     private String intention;
     private int isSent;
     private String name;
@@ -17,14 +16,6 @@ public class Message {
         this.name = username;
         this.timeStamp = timeStamp;
         this.messageContent = messageContent;
-    }
-
-    public int getId() {
-        return _id;
-    }
-
-    public void setId(int _id) {
-        this._id = _id;
     }
 
     public String getIntention() {

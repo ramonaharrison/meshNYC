@@ -1,53 +1,107 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin">
+    tools:context=".MainActivity">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/mapbutton"/>
-
-    <LinearLayout
-        android:layout_marginTop="20dp"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="meshNYC"
+        android:textSize="50sp" />
+
+    <!--<LinearLayout-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:layout_weight="1">-->
+    <!--<Button-->
+    <!--android:id="@+id/messages"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:text="Messaging"-->
+    <!--android:gravity="center"-->
+    <!--android:textSize="20sp"/>-->
+
+    <!--<Button-->
+    <!--android:id="@+id/map"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:text="Map"-->
+    <!--android:gravity="center"-->
+    <!--android:textSize="20sp"/>-->
+
+    <!--<Button-->
+    <!--android:id="@+id/settings"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:text="Settings"-->
+    <!--android:gravity="center"-->
+    <!--android:textSize="20sp"/>-->
+
+    <!--<Button-->
+    <!--android:id="@+id/contacts"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:text="contacts"-->
+    <!--android:gravity="center"-->
+    <!--android:textSize="20sp"/>-->
+
+    <!--<Button-->
+    <!--android:id="@+id/signup"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:text="signup"-->
+    <!--android:gravity="center"-->
+    <!--android:textSize="20sp"/>-->
+    <!--</LinearLayout>-->
 
 
-            <TextView
-                android:id="@+id/messages"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Messaging"
-                android:gravity="center"
-                android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/messages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Messaging"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Map"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Settings"
+            android:textSize="20sp" />
 
 
-            <TextView
-                android:id="@+id/map"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Map"
-                android:gravity="center"
-                android:textSize="20sp"/>
+        <Button
+            android:id="@+id/signup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="signup"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/settings"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Settings"
-                android:gravity="center"
-                android:textSize="20sp"/>
+
     </LinearLayout>
-
-</LinearLayout>
