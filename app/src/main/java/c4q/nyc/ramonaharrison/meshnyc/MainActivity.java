@@ -1,15 +1,16 @@
 package c4q.nyc.ramonaharrison.meshnyc;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,15 @@ public class MainActivity extends ActionBarActivity {
                 MainActivity.this.startActivity(mapIntent);
             }
         });
+
+
+        TextView map = (TextView) findViewById(R.id.map);
+        TextView settings = (TextView) findViewById(R.id.settings);
+
+        //parses JSON and stores all shelters in SQLite
+        ShelterAsync sa = new ShelterAsync(this);
+        sa.execute();
+
     }
 
 
@@ -47,5 +57,20 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void sendToMessagingTab() {
+        Intent intent = new Intent(MainActivity.this, MessageActivity.class);
+        startActivity(intent);
+    }
+
+    public void sendToMapTab() {
+        Intent intent = new Intent(MainActivity.this, MapActivity.class);
+        startActivity(intent);
+    }
+
+    public void sendToSettingsTab() {
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(intent);
     }
 }

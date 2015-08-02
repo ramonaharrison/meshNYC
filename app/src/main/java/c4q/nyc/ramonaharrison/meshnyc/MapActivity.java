@@ -7,6 +7,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,9 +20,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.clustering.ClusterManager;
+
+import java.util.ArrayList;
 
 /**
  * Created by Hoshiko on 8/1/15.
@@ -39,7 +40,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_layout);
 
-        Button button = (Button)findViewById(R.id.button2);
+        Button button = (Button) findViewById(R.id.button2);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,19 +51,17 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
         });
 
 
-
-
         // Getting Google Play availability status
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
 
         // Showing status
-        if(status!= ConnectionResult.SUCCESS){ // Google Play Services are not available
+        if (status != ConnectionResult.SUCCESS) { // Google Play Services are not available
 
             int requestCode = 10;
             Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this, requestCode);
             dialog.show();
 
-        }else { // Google Play Services are available
+        } else { // Google Play Services are available
 
 
             mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
@@ -73,11 +72,11 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
             // Enabling MyLocation Layer of Google Map
             mMap.setMyLocationEnabled(true);
 
-            zipcode = "11217";
-
-            googleStaticMap = "http://maps.google.com/maps/api/staticmap?center=" + zipcode + "&zoom=17&size=600x600&sensor=&maptype=roadmap" +
-                    "&markers=color:blue%7Clabel:S%7C" + zipcode;
-
+//            zipcode = "11217";
+//
+//            googleStaticMap = "http://maps.google.com/maps/api/staticmap?center=" + zipcode + "&zoom=17&size=600x600&sensor=&maptype=roadmap" +
+//                    "&markers=color:blue%7Clabel:S%7C" + zipcode;
+//
 
 
             // Getting LocationManager object from System Service LOCATION_SERVICE
@@ -100,7 +99,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
                 onLocationChanged(location);
             }
 
-            setUpClusterer();
+
         }
 
     }
@@ -113,16 +112,18 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(10, 10))
-                .title("Hello world"));
+//        mMap.addMarker(new MarkerOptions()
+//                .position(new LatLng(10, 10))
+//                .title("Hello world"));
+//
+//
+//        final LatLng MELBOURNE = new LatLng(-37.813, 144.962);
+//         Marker melbourne = mMap.addMarker(new MarkerOptions()
+//                .position(MELBOURNE)
+//                .title("Melbourne")
+//                .snippet("Population: 4,137,400"));
 
-
-        final LatLng MELBOURNE = new LatLng(-37.813, 144.962);
-         Marker melbourne = mMap.addMarker(new MarkerOptions()
-                .position(MELBOURNE)
-                .title("Melbourne")
-                .snippet("Population: 4,137,400"));
+        setUpClusterer();
     }
 
 
@@ -132,11 +133,11 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
     private void setUpClusterer() {
 
         // Position the map.
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.503186, -0.126446), 10));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.7136487, -74.0087126), 10));
 
         // Initialize the manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
-        mClusterManager = new ClusterManager<MarkerCluster>(this, mMap);
+        mClusterManager = new ClusterManager<>(this, mMap);
 
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
@@ -144,26 +145,65 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
         mMap.setOnMarkerClickListener(mClusterManager);
 
         // Add cluster items (markers) to the cluster manager.
-        addItems();
+        ShelterListAsync shelterTask = new ShelterListAsync();
+        shelterTask.execute();
+//        addItems();
     }
 
-    private void addItems() {
+//    private void addItems() {
+//
+//        // Set some lat/lng coordinates to start with.
+//        double lat = 40.7069308;
+//        double lng = -74.0053852;
+//
+//        // Add ten cluster items in close proximity, for purposes of this example.
+////        for (int i = 0; i < 10; i++) {
+////            double offset = i / 60d;
+////            lat = lat + offset;
+////            lng = lng + offset;
+//            MarkerCluster offsetItem = new MarkerCluster(lat, lng);
+//            mClusterManager.addItem(offsetItem);
+////        }
+////        ArrayList <Shelter> shelterList = new ArrayList<Shelter>();
+////
+////        int shelterNum = shelterList.size();
+////        for (int i = 0; i < 20; i++) {
+////            Shelter shelter = shelterList.get(i);
+////            double lng = shelter.getLongitude();
+////            double lat = shelter.getLatitude();
+////            MarkerCluster mc = new MarkerCluster(lat, lng);
+////            mClusterManager.addItem(mc);
+////        }
+//    }
 
-        // Set some lat/lng coordinates to start with.
-        double lat = 51.5145160;
-        double lng = -0.1270060;
 
-        // Add ten cluster items in close proximity, for purposes of this example.
-        for (int i = 0; i < 10; i++) {
-            double offset = i / 60d;
-            lat = lat + offset;
-            lng = lng + offset;
-            MarkerCluster offsetItem = new MarkerCluster(lat, lng);
-            mClusterManager.addItem(offsetItem);
+    public class ShelterListAsync extends AsyncTask<Void, Void, ArrayList<Shelter>> {
+//        private Context context;
+//
+//        public ShelterListAsync(Context context) {
+//            this.context = context;
+//        }
+
+        @Override
+        protected ArrayList<Shelter> doInBackground(Void... params) {
+
+            SQLHelper helper = SQLHelper.getInstance(getApplicationContext());
+
+            return helper.getAllShelters();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Shelter> shelterList) {
+            int shelterNum = shelterList.size();
+            for (int i = 0; i < 5; i++) {
+                Shelter shelter = shelterList.get(i);
+                double lng = shelter.getLongitude();
+                double lat = shelter.getLatitude();
+                MarkerCluster mc = new MarkerCluster(lat, lng);
+                mClusterManager.addItem(mc);
+            }
         }
     }
 
-
 }
-
 

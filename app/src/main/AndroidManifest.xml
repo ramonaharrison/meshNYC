@@ -2,11 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="c4q.nyc.ramonaharrison.meshnyc" >
 
+
     <permission
         android:name="c4q.nyc.ramonaharrison.meshnyc.permission.MAPS_RECEIVE"
         android:protectionLevel="signature"/>
 
-    <uses-permission android:name="happy_juggles.c4q.nyc.happy_juggles.permission.MAPS_RECEIVE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
@@ -36,11 +36,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".MapActivity"
-            android:label="@string/app_name" >
 
-        </activity>
 
         <intent-filter>
             <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -54,6 +50,11 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBdPxRO5fUfS2yHhlwqyoZfzIK2Rk77X5I"/>
+
+        <activity android:name=".MapActivity" />
+        <activity android:name=".MessageActivity" />
+        <activity android:name=".SettingsActivity" />
+
 
     </application>
 
