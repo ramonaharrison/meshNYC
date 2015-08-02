@@ -56,8 +56,8 @@ public class SignUpActivty extends ActionBarActivity {
 
 
         if (!zipCode.equals("") && !userName.equals("")) {
-            savedZip.setText("your zip code is: " + zipCode);
-            savedUsername.setText("your username is:" + userName);
+            savedZip.setText("your zip code is:   " + zipCode);
+            savedUsername.setText("your username is:   " + userName.toUpperCase());
         }
 
         //submitting new zip code/moving on to next screen
