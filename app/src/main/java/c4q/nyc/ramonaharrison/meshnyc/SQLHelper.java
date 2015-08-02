@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SQLHelper extends SQLiteOpenHelper {
 
@@ -130,6 +129,9 @@ public class SQLHelper extends SQLiteOpenHelper {
         cursor.close();
         return shelters;
     }
+
+
+
 
 
 
