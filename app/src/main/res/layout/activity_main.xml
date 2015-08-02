@@ -103,5 +103,21 @@
             android:text="signup"
             android:textSize="20sp" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Check Public Alerts"
+            android:id="@+id/button2"
+            android:layout_gravity="center_horizontal" />
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/twitter"
+            android:layout_gravity="center_horizontal"
+            android:text="NYC Emergency Twitter"
+            />
+
 
     </LinearLayout>
