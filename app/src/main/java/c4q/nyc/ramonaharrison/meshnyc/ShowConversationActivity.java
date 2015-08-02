@@ -8,13 +8,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 
 public class ShowConversationActivity extends ActionBarActivity {
 
+    ConversationAdapter adapter;
+    ArrayList<Message> conversationArray;
+    ListView messageList;
     Button sendButton;
     static EditText messageContent;
 
@@ -23,6 +28,13 @@ public class ShowConversationActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_conversation);
 
+        conversationArray = new ArrayList<>();
+        conversationArray.add(new Message("blah", "send", 0, "alvin", "hello", "HEY THERE HOW IS IT GOING"));
+        messageList = (ListView) findViewById(R.id.messageList);
+        adapter = new ConversationAdapter(getApplicationContext(), conversationArray);
+        messageList.setAdapter(adapter);
+
+
         messageContent = (EditText) findViewById(R.id.messageContent);
         sendButton = (Button) findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
@@ -30,6 +42,9 @@ public class ShowConversationActivity extends ActionBarActivity {
             public void onClick(View view) {
                 java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
                 Message message = new Message("ID", "SEND", 0, "NAME SENT TO HERE", currentTimestamp.toString(), messageContent.getText().toString());
+                conversationArray.add(message);
+                adapter.notifyDataSetChanged();
+                messageList.setAdapter(adapter);
 
                 SQLHelper helper = SQLHelper.getInstance(getApplicationContext());
                 helper.insertMessageRow(message.getId(), message.getIntention(), message.getIsSent(), message.getName(), message.getTimeStamp(), message.getMessageContent());
@@ -38,6 +53,8 @@ public class ShowConversationActivity extends ActionBarActivity {
 //                Toast.makeText(getApplicationContext(), helper.getAllMessages(), Toast.LENGTH_SHORT).show();
             }
         });
+
+
 
     }
 

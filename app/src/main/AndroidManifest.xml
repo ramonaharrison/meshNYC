@@ -55,7 +55,10 @@
 
         <activity
             android:name=".ShowConversationActivity"
-            android:label="@string/title_activity_show_conversation" />
+            android:label="@string/title_activity_show_conversation">
+
+        </activity>
+
     </application>
 
 </manifest>

@@ -16,7 +16,7 @@ public class SQLHelper extends SQLiteOpenHelper {
     public static final int VERSION = 1;
 
     //create table shelters
-    private static final String SQL_CREATE_ENTRIES = "CREATE TABLE " + Columns.TABLE_NAME_SHELTERS + " (" +
+    private static final String SQL_SHELTERS = "CREATE TABLE " + Columns.TABLE_NAME_SHELTERS + " (" +
             Columns._ID + " INTEGER PRIMARY KEY," +
             Columns.COLUMN_CITY + " TEXT," +
             Columns.COLUMN_ADDRESS + " TEXT," +
@@ -57,7 +57,7 @@ public class SQLHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_ENTRIES);
+        db.execSQL(SQL_SHELTERS);
         db.execSQL(SQL_CREATE_MESSAGES);
     }
 
@@ -66,6 +66,13 @@ public class SQLHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_ENTRIES);
         db.execSQL(SQL_DELETE_MESSAGES);
         onCreate(db);
+    }
+
+    //update table shelters every time there is network connection
+    public void updateTableShelters() {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(SQL_DELETE_ENTRIES);
+        db.execSQL(SQL_SHELTERS);
     }
 
     public static abstract class Columns implements BaseColumns {
