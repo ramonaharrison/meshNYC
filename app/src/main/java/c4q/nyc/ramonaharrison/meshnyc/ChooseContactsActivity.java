@@ -30,6 +30,7 @@ public class ChooseContactsActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.activity_choose_contacts);
 
 
         //create a cursor to query the Contacts on the device to start populating a listview
@@ -60,6 +61,24 @@ public class ChooseContactsActivity extends ListActivity {
                 phoneNumbers.add(data);
                 view.setBackgroundColor(Color.BLUE);
                 Log.d("data", "" + data);
+
+                String itemText = data;
+
+
+                // fetch the Sms Manager
+                SmsManager sms = SmsManager.getDefault();
+                // the message
+                String messageText = "Hey download our app";
+                // the phone numbers we want to send to
+               String[] numbers = {itemText};
+
+                for (String contactNumber : numbers) {
+                    sms.sendTextMessage(contactNumber, null, messageText, null, null);
+                }
+                Toast.makeText(getApplicationContext(), "Invite sent!", Toast.LENGTH_SHORT).show();
+
+
+
             }
         });
 
@@ -73,7 +92,7 @@ public class ChooseContactsActivity extends ListActivity {
         activity_choose_contacts.xml is the the listview and the button reside. The fields populated by the simple
         adapter are in  contacts_fields.xml*/
 
-
+//
 //        button = (Button) findViewById(R.id.sendInviteButton);
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override

@@ -60,21 +60,28 @@
         style="@style/button"
         android:text="Submit"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/contact_invite_button"
+        style="@style/button"
+        android:text="Invite from contacts"/>
+
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/saved_username"
-        android:padding="15dp"
-        android:textSize="30sp"
+        android:padding="5dp"
+        android:textSize="20sp"
         android:gravity="center_horizontal"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/saved_zip_code"
-        android:padding="15dp"
-        android:textSize="30sp"
+        android:padding="5dp"
+        android:textSize="20sp"
         android:gravity="center_horizontal"/>
 
 
