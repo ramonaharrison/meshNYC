@@ -31,14 +31,15 @@
         <activity
             android:name=".MessagesList"
             android:label="@string/title_activity_messages_list">
-
         </activity>
+
         <activity
             android:name=".ChooseContactsActivity"
             android:label="@string/title_activity_choose_contacts" />
 
         <activity android:name=".MapActivity" />
         <activity android:name=".MessageActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

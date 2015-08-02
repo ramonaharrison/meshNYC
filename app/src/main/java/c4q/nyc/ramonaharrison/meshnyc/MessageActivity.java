@@ -1,9 +1,11 @@
 package c4q.nyc.ramonaharrison.meshnyc;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,39 +24,29 @@ import java.util.List;
 /**
  * Created by July on 8/1/15.
  */
-public class MessageActivity extends Activity {
+public class MessageActivity extends Activity implements RecentMessagesAsync.MyListener{
 
     private static final String NAME = "name";
     private static final String MESSAGE_CONTENT = "message";
+    private ArrayAdapter<Message> adapter;
     private ListView listView;
+    private List<Message> messages;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messages_list);
         listView = (ListView) findViewById(R.id.messagesList);
+        messages = new ArrayList<>();
 
-        new AsyncTask<Void, Void, List<Message>>() {
-            @Override
-            protected List<Message> doInBackground(Void[] params) {
+        RecentMessagesAsync async = new RecentMessagesAsync(this);
+        async.setListener(this);
+        async.execute();
 
-                SQLHelper helper = SQLHelper.getInstance(MessageActivity.this);
-                return helper.getMostRecentMessages();
-            }
-
-            @Override
-            protected void onPostExecute(List<Message> messages) {
-                showMessages(messages);
-            }
-        }.execute();
-    }
-
-    private void showMessages(final List<Message> data)
-    {
-        listView.setAdapter(new ArrayAdapter<Message>(
-                this,
+        adapter = new ArrayAdapter<Message>(this,
                 android.R.layout.simple_list_item_2,
                 android.R.id.text1,
-                data) {
+                messages) {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -62,14 +54,16 @@ public class MessageActivity extends Activity {
                 // Must always return just a View.
                 View view = super.getView(position, convertView, parent);
 
-                Message message = data.get(position);
+                Message message = messages.get(position);
                 TextView text1 = (TextView) view.findViewById(android.R.id.text1);
                 TextView text2 = (TextView) view.findViewById(android.R.id.text2);
                 text1.setText(message.getName());
                 text2.setText(message.getMessageContent());
                 return view;
             }
-        });
+        };
+
+        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -85,4 +79,23 @@ public class MessageActivity extends Activity {
             }
         });
     }
+
+    public void onLoadComplete(final List<Message> data)
+    {
+        Log.d("message", data.size() + "on load complete within message activity");
+        messages.clear();
+        messages.addAll(data);
+        adapter.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+    }
 }
+
+

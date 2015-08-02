@@ -7,17 +7,24 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TwoLineListItem;
 
 import java.util.Calendar;
+import java.util.List;
 
 
 public class ShowConversationActivity extends ActionBarActivity {
 
     Button sendButton;
-    static EditText messageContent;
+    EditText messageContent;
+    RecentMessagesAsync async;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +38,12 @@ public class ShowConversationActivity extends ActionBarActivity {
         Log.d("message", name + " " + message);
 
         messageContent = (EditText) findViewById(R.id.messageContent);
+        TextView messageTV =  (TextView) findViewById(R.id.message);
+        TextView receiver = (TextView) findViewById(R.id.receiver);
+
+        messageTV.setText(message);
+        receiver.setText(name);
+
         sendButton = (Button) findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,17 +53,18 @@ public class ShowConversationActivity extends ActionBarActivity {
 
                 SQLHelper helper = SQLHelper.getInstance(getApplicationContext());
                 helper.insertMessageRow(message.getIntention(), message.getIsSent(), message.getName(), message.getTimeStamp(), message.getMessageContent());
+
                 messageContent.setText("");
 
-//                Toast.makeText(getApplicationContext(), helper.getAllMessages(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MessageActivity.class);
+        startActivity(intent);
 
-
-
-
-
+    }
 }
