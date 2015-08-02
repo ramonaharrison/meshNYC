@@ -75,7 +75,6 @@
         android:id="@+id/saved_username"
         android:padding="5dp"
         android:textSize="20sp"
-        style="@style/header"
         android:gravity="center_horizontal"/>
 
     <TextView
@@ -84,7 +83,6 @@
         android:id="@+id/saved_zip_code"
         android:padding="5dp"
         android:textSize="20sp"
-        style="@style/header"
         android:gravity="center_horizontal"/>
 
 

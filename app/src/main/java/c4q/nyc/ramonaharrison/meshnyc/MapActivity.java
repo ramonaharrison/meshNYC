@@ -166,6 +166,11 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
     public class ShelterListAsync extends AsyncTask<Void, Void, ClusterManager<MarkerCluster> > {
 
         @Override
+        protected void onPreExecute() {
+            bar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
         protected ClusterManager<MarkerCluster> doInBackground(Void... params) {
 
             SQLHelper helper = SQLHelper.getInstance(getApplicationContext());

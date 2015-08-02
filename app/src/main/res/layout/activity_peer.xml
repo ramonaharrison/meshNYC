@@ -40,7 +40,16 @@
             android:text="messages"
             style="@style/header"
             android:gravity="center_horizontal"
-            android:textSize="40sp"
+            android:textSize="35sp"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:text="____________________________________"
+            style="@style/header"
+            android:gravity="center"
+            android:textSize="20sp"
             android:layout_weight="1"/>
 
         <TextView

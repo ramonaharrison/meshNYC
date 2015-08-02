@@ -86,8 +86,6 @@ public class SignUpActivty extends ActionBarActivity {
 //                savedZip.setVisibility(View.GONE);
 //                welcomeMessage.setVisibility(View.GONE);
 
-                Intent intent = new Intent(SignUpActivty.this, ChooseContactsActivity.class);
-                startActivity(intent);
             }
         });
 

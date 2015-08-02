@@ -51,7 +51,9 @@
         </activity>
         <activity
             android:name=".SignUpActivty"
-            android:label="@string/title_activity_sign_up_activty" >
+            android:label="@string/title_activity_sign_up_activty"
+            android:screenOrientation="portrait">
+            >
         </activity>
 
         <intent-filter>
@@ -65,9 +67,16 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBdPxRO5fUfS2yHhlwqyoZfzIK2Rk77X5I" />
 
-        <activity android:name=".MapActivity" />
-        <activity android:name=".MessageActivity" />
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".MapActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".MessageActivity"
+            android:screenOrientation="portrait">
+            >
+            </activity>
+        <activity android:name=".SettingsActivity"
+            android:screenOrientation="portrait">
+        </activity>>
         <activity
             android:name=".PeerActivity"
             android:screenOrientation="portrait" >
