@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,50 +6,76 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
     tools:context="c4q.nyc.ramonaharrison.meshnyc.SignUpActivty">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/zip_code_screen">
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/welcome_message"
-        android:id="@+id/welcome_message"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:text="meshNYC set-up"
+        android:textSize="40sp"
+        android:padding="10dp"
+        android:id="@+id/welcome_message" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="First Name"
+            android:id="@+id/firstName"
+            android:layout_marginTop="70dp" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Last Name"
+            android:id="@+id/lastName"
+            android:layout_marginTop="70dp" />
+
+    </LinearLayout>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/zip_code_hint"
         android:inputType="number"
+        android:maxLength="5"
         android:id="@+id/zip_code"
-        android:layout_below="@+id/welcome_message"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp" />
+
+
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/submit_button"
-        android:text="Submit"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        style="@style/button"
+        android:text="Submit"/>
+
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/saved_username"
+        android:padding="15dp"
+        android:textSize="30sp"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/saved_zip_code"
-        android:layout_below="@+id/zip_code"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/submit_button"
-        android:layout_toStartOf="@+id/submit_button"
-        android:layout_above="@+id/submit_button" />
-    </RelativeLayout>
+        android:padding="15dp"
+        android:textSize="30sp"
+        android:gravity="center_horizontal"/>
 
 
-</RelativeLayout>
+</LinearLayout>

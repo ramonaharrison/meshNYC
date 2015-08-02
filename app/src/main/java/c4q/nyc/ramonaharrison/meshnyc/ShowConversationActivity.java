@@ -29,7 +29,6 @@ public class ShowConversationActivity extends ActionBarActivity {
         setContentView(R.layout.activity_show_conversation);
 
         conversationArray = new ArrayList<>();
-        conversationArray.add(new Message("blah", "send", 0, "alvin", "hello", "HEY THERE HOW IS IT GOING"));
         messageList = (ListView) findViewById(R.id.messageList);
         adapter = new ConversationAdapter(getApplicationContext(), conversationArray);
         messageList.setAdapter(adapter);
@@ -41,16 +40,14 @@ public class ShowConversationActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
+                // TODO: FILL IN WITH THE PROPER PARAMETERS
                 Message message = new Message("ID", "SEND", 0, "NAME SENT TO HERE", currentTimestamp.toString(), messageContent.getText().toString());
                 conversationArray.add(message);
-                adapter.notifyDataSetChanged();
-                messageList.setAdapter(adapter);
 
                 SQLHelper helper = SQLHelper.getInstance(getApplicationContext());
                 helper.insertMessageRow(message.getId(), message.getIntention(), message.getIsSent(), message.getName(), message.getTimeStamp(), message.getMessageContent());
                 messageContent.setText("");
 
-//                Toast.makeText(getApplicationContext(), helper.getAllMessages(), Toast.LENGTH_SHORT).show();
             }
         });
 

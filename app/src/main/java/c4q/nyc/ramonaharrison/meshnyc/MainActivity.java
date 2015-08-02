@@ -1,6 +1,7 @@
 package c4q.nyc.ramonaharrison.meshnyc;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,6 +12,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends Activity {
 
@@ -28,38 +31,52 @@ public class MainActivity extends Activity {
         }
 
         //for Hoshiko to check that table shelters is created once and get updated
-        SQLHelper helper =SQLHelper.getInstance(this);
-        SQLiteDatabase db = helper.getReadableDatabase();
-        long numRows = DatabaseUtils.queryNumEntries(db, "shelters");
-        Log.i("yuliya", "" + numRows);
+//        SQLHelper helper =SQLHelper.getInstance(this);
+//        SQLiteDatabase db = helper.getReadableDatabase();
+//        long numRows = DatabaseUtils.queryNumEntries(db, "shelters");
+//        Log.i("yuliya", "" + numRows);
 
         //CHECKS HOW MANY MSGS ARE IN SQLITE TO CONFIRM THEY ARE STORING SUCCESSFULLY
 //        long numMsgRows = DatabaseUtils.queryNumEntries(db, "messages");
 //        Log.i("alvin", "" + numMsgRows);
+
+
+        Button messagesButton = (Button) findViewById(R.id.messages);
+        messagesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent messageIntent = new Intent(getApplicationContext(), MessageActivity.class);
+                startActivity(messageIntent);
+            }
+        });
+        Button mapButton = (Button) findViewById(R.id.map);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mapIntent = new Intent(getApplicationContext(), MapActivity.class);
+                startActivity(mapIntent);
+            }
+        });
+        Button settingsButton = (Button) findViewById(R.id.settings);
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent settingsIntent = new Intent(getApplicationContext(), PeerActivity.class);
+                startActivity(settingsIntent);
+            }
+        });
+
+        Button signupButton = (Button) findViewById(R.id.signup);
+        signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent signupIntent = new Intent(getApplicationContext(), SignUpActivty.class);
+                startActivity(signupIntent);
+            }
+        });
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     //method to check Internet connection
     private boolean noNetwork() {

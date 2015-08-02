@@ -17,31 +17,30 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
-
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
 
         <activity
             android:name=".SignUpActivty"
-            android:label="@string/title_activity_sign_up_activty">
+            android:label="@string/title_activity_sign_up_activty"
+            android:screenOrientation="portrait">
 
         </activity>
-        <activity
-            android:name=".MessagesList"
-            android:label="@string/title_activity_messages_list">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
+               <activity
             android:name=".ChooseContactsActivity"
-            android:label="@string/title_activity_choose_contacts" />
+            android:label="@string/title_activity_choose_contacts"
+                   android:screenOrientation="portrait" />
 
         <activity android:name=".MapActivity" />
         <activity android:name=".MessageActivity" />
@@ -55,7 +54,8 @@
 
         <activity
             android:name=".ShowConversationActivity"
-            android:label="@string/title_activity_show_conversation">
+            android:label="@string/title_activity_show_conversation"
+            android:screenOrientation="portrait">
 
         </activity>
 

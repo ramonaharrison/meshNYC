@@ -34,7 +34,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/messageContent"
         android:layout_alignParentRight="true"
-        android:text="SEND" />
+        android:text="SEND"
+        style="@style/button"
+        />
 
     <ListView
         android:id="@+id/messageList"
