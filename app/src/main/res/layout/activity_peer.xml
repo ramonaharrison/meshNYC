@@ -57,7 +57,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:text="Message Board"
-            android:id="@+id/message_board" />
+            android:id="@+id/message_board"
+            android:textSize="35sp"/>
 
         <EditText
             android:layout_width="fill_parent"
@@ -66,12 +67,12 @@
 
             android:id="@+id/message_edit_text" />
 
-        <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="Send"
-            android:id="@+id/send_button" />
+        <!--<Button-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="20dp"-->
+            <!--android:text="Send"-->
+            <!--android:id="@+id/send_button" />-->
     </LinearLayout>
 
 

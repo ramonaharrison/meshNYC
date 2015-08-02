@@ -19,17 +19,10 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        TextView map = (TextView) findViewById(R.id.map);
-        TextView settings = (TextView) findViewById(R.id.settings);
-
 
         //parses JSON and stores all shelters in SQLite
         if (!noNetwork()) {
@@ -49,13 +42,11 @@ public class MainActivity extends Activity {
 //        Log.i("alvin", "" + numMsgRows);
 
 
-
-
         Button messagesButton = (Button) findViewById(R.id.messages);
         messagesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent messageIntent = new Intent(getApplicationContext(), MessageActivity.class);
+                Intent messageIntent = new Intent(getApplicationContext(), PeerActivity.class);
                 startActivity(messageIntent);
             }
         });
