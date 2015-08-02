@@ -14,7 +14,7 @@ public class SignUpActivty extends ActionBarActivity {
 
     TextView welcomeMessage;
     EditText ZIP_CODE, firstName, lastName;
-    String userName = "", zipCode = "";
+    public static String userName = "", zipCode = "";
     Button submit;
     Button contacts;
     TextView savedZip, savedUsername;
@@ -27,8 +27,6 @@ public class SignUpActivty extends ActionBarActivity {
 
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +86,8 @@ public class SignUpActivty extends ActionBarActivity {
 //                savedZip.setVisibility(View.GONE);
 //                welcomeMessage.setVisibility(View.GONE);
 
-
+                Intent intent = new Intent(SignUpActivty.this, ChooseContactsActivity.class);
+                startActivity(intent);
             }
         });
 

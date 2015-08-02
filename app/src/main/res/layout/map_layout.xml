@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="map"
+        android:text="shelter map"
         style="@style/header"
         android:gravity="center_horizontal"
         android:textSize="40sp"
