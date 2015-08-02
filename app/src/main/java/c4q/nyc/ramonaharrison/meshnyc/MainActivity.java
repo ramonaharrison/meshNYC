@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -100,6 +99,15 @@ public class MainActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "Sorry no internet connection", Toast.LENGTH_SHORT).show();
                 }
             });
+
+            twitterButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "Sorry no internet connection", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        
         }
     }
 
