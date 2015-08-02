@@ -2,17 +2,14 @@ package c4q.nyc.ramonaharrison.meshnyc;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -164,6 +161,11 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
 
 
     public class ShelterListAsync extends AsyncTask<Void, Void, ClusterManager<MarkerCluster> > {
+
+        @Override
+        protected void onPreExecute() {
+            bar.setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected ClusterManager<MarkerCluster> doInBackground(Void... params) {
