@@ -106,7 +106,7 @@ public class PeerActivity extends ActionBarActivity implements ChannelListener, 
                     connectToPeer(position);
                 } else {
                     String message = messageBox.getText().toString();
-                    thisNode.sendMessage(connectedNode, message);
+                    thisNode.sendMessage(connectedNode, '"' + " " + message  + " " + '"');
                     startServer(isGroupOwner);
                 }
             }
@@ -118,7 +118,7 @@ public class PeerActivity extends ActionBarActivity implements ChannelListener, 
 
 
     public void setMessageBoard(String response) {
-        messageBoard.setText('"' + response + '"');
+        messageBoard.setText('"' + " " + response + " " + '"');
         startServer(isGroupOwner);
     }
 
