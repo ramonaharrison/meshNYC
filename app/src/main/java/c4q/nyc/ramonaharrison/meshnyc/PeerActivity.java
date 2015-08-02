@@ -107,6 +107,7 @@ public class PeerActivity extends ActionBarActivity implements ChannelListener, 
                 } else {
                     String message = messageBox.getText().toString();
                     thisNode.sendMessage(connectedNode, message);
+                    messageBox.setText("");
                     startServer(isGroupOwner);
                 }
             }
