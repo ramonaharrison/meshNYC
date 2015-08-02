@@ -65,7 +65,7 @@ public class SignUpActivty extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 //validating zip length
-                if (!ZIP_CODE.equals("") && !firstName.equals("") && !lastName.equals("")) {
+                if (!ZIP_CODE.getText().toString().equals("") && !firstName.getText().toString().equals("") && !lastName.getText().toString().equals("")) {
                     editor = prefs.edit();
                     zipCode = ZIP_CODE.getText().toString();
                     editor.putString(ZIP_CODE_KEY, zipCode);
@@ -75,8 +75,7 @@ public class SignUpActivty extends ActionBarActivity {
                     savedZip.setText("your zip code is: " + ZIP_CODE.getText().toString());
                     savedUsername.setText("your username is:   " + userName);
                 } else {
-                    savedZip.setText("your zip code is:   " + ZIP_CODE.getText().toString());
-                    savedUsername.setText("your username is:   " + userName.toUpperCase());
+
                 }
 
 
