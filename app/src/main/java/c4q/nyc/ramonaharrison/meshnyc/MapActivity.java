@@ -1,16 +1,21 @@
 package c4q.nyc.ramonaharrison.meshnyc;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -20,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.clustering.ClusterManager;
 
 import java.util.ArrayList;
@@ -27,7 +33,7 @@ import java.util.ArrayList;
 /**
  * Created by Hoshiko on 8/1/15.
  */
-public class MapActivity extends Activity implements OnMapReadyCallback, LocationListener {
+public class MapActivity extends Activity implements OnMapReadyCallback, LocationListener, GoogleMap.OnInfoWindowClickListener, ClusterManager.OnClusterItemInfoWindowClickListener<MarkerCluster> {
 
     GoogleMap mMap;
     Location location;
@@ -35,20 +41,37 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
     String zipcode;
     String googleStaticMap;
 
+
+    // Declare a variable for the cluster manager.
+    ClusterManager<MarkerCluster> mClusterManager;
+    private String fullAddress;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_layout);
 
         Button button = (Button) findViewById(R.id.button2);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent alertIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://google.org/publicalerts"));
-                startActivity(alertIntent);
 
-            }
-        });
+        if (connectedNetwork()) {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent alertIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://google.org/publicalerts"));
+                    startActivity(alertIntent);
+
+                }
+            });
+        }else {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "Sorry no internet connection", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
 
 
         // Getting Google Play availability status
@@ -63,7 +86,6 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
 
         } else { // Google Play Services are available
 
-
             mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
             // Getting GoogleMap object from the fragment
@@ -71,6 +93,8 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
 
             // Enabling MyLocation Layer of Google Map
             mMap.setMyLocationEnabled(true);
+
+
 
 //            zipcode = "11217";
 //
@@ -124,11 +148,11 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
 //                .snippet("Population: 4,137,400"));
 
         setUpClusterer();
+        mClusterManager.setOnClusterItemInfoWindowClickListener (MapActivity.this);
+
     }
 
 
-    // Declare a variable for the cluster manager.
-    ClusterManager<MarkerCluster> mClusterManager;
 
     private void setUpClusterer() {
 
@@ -137,17 +161,39 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
 
         // Initialize the manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
-        mClusterManager = new ClusterManager<>(this, mMap);
+        mClusterManager = new ClusterManager<MarkerCluster>(getApplicationContext(), mMap);
 
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
         mMap.setOnCameraChangeListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
 
+
+
         // Add cluster items (markers) to the cluster manager.
-        ShelterListAsync shelterTask = new ShelterListAsync();
-        shelterTask.execute();
+        ShelterListAsync shelterListTask = new ShelterListAsync();
+        shelterListTask.execute();
 //        addItems();
+    }
+
+    @Override
+    public void onClusterItemInfoWindowClick(MarkerCluster marker) {
+        String a=marker.getTitle();
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Address of this shelter");
+        alertDialog.setMessage(a);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
     }
 
 //    private void addItems() {
@@ -157,52 +203,82 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
 //        double lng = -74.0053852;
 //
 //        // Add ten cluster items in close proximity, for purposes of this example.
-////        for (int i = 0; i < 10; i++) {
-////            double offset = i / 60d;
-////            lat = lat + offset;
-////            lng = lng + offset;
+//        for (int i = 0; i < 10; i++) {
+//            double offset = i / 60d;
+//            lat = lat + offset;
+//            lng = lng + offset;
+//
+//            Toast.makeText(getApplicationContext(), lat + ", " + lng, Toast.LENGTH_SHORT).show();
+//
 //            MarkerCluster offsetItem = new MarkerCluster(lat, lng);
 //            mClusterManager.addItem(offsetItem);
-////        }
-////        ArrayList <Shelter> shelterList = new ArrayList<Shelter>();
-////
-////        int shelterNum = shelterList.size();
-////        for (int i = 0; i < 20; i++) {
-////            Shelter shelter = shelterList.get(i);
-////            double lng = shelter.getLongitude();
-////            double lat = shelter.getLatitude();
-////            MarkerCluster mc = new MarkerCluster(lat, lng);
-////            mClusterManager.addItem(mc);
-////        }
-//    }
-
-
-    public class ShelterListAsync extends AsyncTask<Void, Void, ArrayList<Shelter>> {
-//        private Context context;
+//        }
+//        ArrayList <Shelter> shelterList = new ArrayList<Shelter>();
 //
-//        public ShelterListAsync(Context context) {
-//            this.context = context;
+//        int shelterNum = shelterList.size();
+//        for (int i = 0; i < 20; i++) {
+//            Shelter shelter = shelterList.get(i);
+//            double lng = shelter.getLongitude();
+//            double lat = shelter.getLatitude();
+//            MarkerCluster mc = new MarkerCluster(lat, lng);
+//            mClusterManager.addItem(mc);
 //        }
 
+
+    public class ShelterListAsync extends AsyncTask<Void, Void, ClusterManager<MarkerCluster> > {
+
+//        private ClusterManager<MarkerCluster> mClusterManager;
+
         @Override
-        protected ArrayList<Shelter> doInBackground(Void... params) {
+        protected ClusterManager<MarkerCluster> doInBackground(Void... params) {
 
             SQLHelper helper = SQLHelper.getInstance(getApplicationContext());
 
-            return helper.getAllShelters();
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Shelter> shelterList) {
+            ArrayList<Shelter> shelterList = helper.getAllShelters();
             int shelterNum = shelterList.size();
-            for (int i = 0; i < 5; i++) {
+
+            for (int i = 0; i < shelterNum; i++) {
+
                 Shelter shelter = shelterList.get(i);
-                double lng = shelter.getLongitude();
-                double lat = shelter.getLatitude();
-                MarkerCluster mc = new MarkerCluster(lat, lng);
+                double lat = shelter.getLongitude();
+                double lng = shelter.getLatitude();
+                String address = shelter.getAddress();
+                String city = shelter.getCity();
+                String zip = shelter.getPostal();
+                fullAddress = address + ", " + city + " " + zip;
+                MarkerCluster mc = new MarkerCluster(lat, lng, address);
                 mClusterManager.addItem(mc);
             }
+
+            return mClusterManager;
         }
+
+    }
+//        @Override
+//        protected void onPostExecute(ClusterManager<MarkerCluster> mClusterManager) {
+////            int shelterNum = shelterList.size();
+////
+////            for (int i = 0; i < shelterNum; i++) {
+////
+////                Shelter shelter = shelterList.get(i);
+////                double lat = shelter.getLongitude();
+////                double lng = shelter.getLatitude();
+////                Toast.makeText(getApplicationContext(), lat + ", " + lng, Toast.LENGTH_SHORT).show();
+////                MarkerCluster mc = new MarkerCluster(lat, lng);
+////                mClusterManager.addItem(mc);
+//
+//            }
+//        }
+
+
+    private boolean connectedNetwork() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni == null) {
+            // There are no active networks.
+            return false;
+        } else
+            return true;
     }
 
 }
