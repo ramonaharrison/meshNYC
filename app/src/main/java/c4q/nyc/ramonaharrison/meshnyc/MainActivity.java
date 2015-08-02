@@ -27,11 +27,11 @@ public class MainActivity extends Activity {
             sa.execute();
         }
 
-        //for Hoshiko to check that table shelters is created once and get updated
-        SQLHelper helper =SQLHelper.getInstance(this);
-        SQLiteDatabase db = helper.getReadableDatabase();
-        long numRows = DatabaseUtils.queryNumEntries(db, "shelters");
-        Log.i("yuliya", "" + numRows);
+//        //for Hoshiko to check that table shelters is created once and get updated
+//        SQLHelper helper =SQLHelper.getInstance(this);
+//        SQLiteDatabase db = helper.getReadableDatabase();
+//        long numRows = DatabaseUtils.queryNumEntries(db, "shelters");
+//        Log.i("yuliya", "" + numRows);
     }
 
 
