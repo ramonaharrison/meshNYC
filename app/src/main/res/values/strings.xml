@@ -59,6 +59,7 @@
     <string name="system_serval_meshms_extra_name">simple</string>
     <string name="title_activity_messages_list">MessagesList</string>
     <string name="title_activity_show_conversation">ShowConversationActivity</string>
+    <string name="title_activity_message_transfer">MessageTransferActivity</string>
 
 
 
