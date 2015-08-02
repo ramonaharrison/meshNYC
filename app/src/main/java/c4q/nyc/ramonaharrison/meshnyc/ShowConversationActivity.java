@@ -48,8 +48,7 @@ public class ShowConversationActivity extends ActionBarActivity {
             public void onClick(View view) {
                 java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
 
-                Message message = new Message("SEND", 0, "NAME SENT TO HERE", currentTimestamp.toString(), messageContent.getText().toString());
-                conversationArray.add(message);
+                Message message = new Message("SEND", 0, SignUpActivty.userName, currentTimestamp.toString(), messageContent.getText().toString());
 
                 SQLHelper helper = SQLHelper.getInstance(getApplicationContext());
                 helper.insertMessageRow(message.getIntention(), message.getIsSent(), message.getName(), message.getTimeStamp(), message.getMessageContent());

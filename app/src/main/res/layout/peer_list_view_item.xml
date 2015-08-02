@@ -13,7 +13,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/abc_text_size_large_material"
-            android:layout_margin="24dp"
             android:text="Peer Name"
             android:id="@+id/peer_name" />
 

@@ -14,17 +14,10 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        TextView map = (TextView) findViewById(R.id.map);
-        TextView settings = (TextView) findViewById(R.id.settings);
-
 
         //parses JSON and stores all shelters in SQLite
         if (!noNetwork()) {
@@ -44,13 +37,11 @@ public class MainActivity extends Activity {
 //        Log.i("alvin", "" + numMsgRows);
 
 
-
-
         Button messagesButton = (Button) findViewById(R.id.messages);
         messagesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent messageIntent = new Intent(getApplicationContext(), MessageActivity.class);
+                Intent messageIntent = new Intent(getApplicationContext(), PeerActivity.class);
                 startActivity(messageIntent);
             }
         });
@@ -60,14 +51,6 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Intent mapIntent = new Intent(getApplicationContext(), MapActivity.class);
                 startActivity(mapIntent);
-            }
-        });
-        Button settingsButton = (Button) findViewById(R.id.settings);
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent settingsIntent = new Intent(getApplicationContext(), PeerActivity.class);
-                startActivity(settingsIntent);
             }
         });
 

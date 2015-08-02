@@ -77,7 +77,7 @@ public class PeerActivity extends ActionBarActivity implements ChannelListener, 
     }
 
     private void initializeUI() {
-        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+//        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
         messageBoard = (TextView) findViewById(R.id.message_board);
         messageBox = (EditText) findViewById(R.id.message_edit_text);
         progressText = (TextView) findViewById(R.id.progress_textview);
@@ -93,7 +93,6 @@ public class PeerActivity extends ActionBarActivity implements ChannelListener, 
         findPeers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showProgressBar(true);
                 progressText.setText(SEARCHING_FOR_PEERS);
                 discoverPeers();
             }
@@ -108,13 +107,14 @@ public class PeerActivity extends ActionBarActivity implements ChannelListener, 
                 } else {
                     String message = messageBox.getText().toString();
                     thisNode.sendMessage(connectedNode, message);
+                    messageBox.setText("");
+                    thisNode.sendMessage(connectedNode, message);
                     startServer(isGroupOwner);
                 }
             }
         });
 
 
-        showProgressBar(false);
     }
 
 
@@ -143,7 +143,6 @@ public class PeerActivity extends ActionBarActivity implements ChannelListener, 
 
             @Override
             public void onFailure(int reasonCode) {
-                showProgressBar(false);
                 Toast.makeText(getApplicationContext(), SOMETHING_WENT_WRONG, Toast.LENGTH_SHORT).show();
                 progressText.setText(NO_PEERS);
             }
@@ -166,9 +165,6 @@ public class PeerActivity extends ActionBarActivity implements ChannelListener, 
         } else {
             progressText.setVisibility(View.INVISIBLE);
         }
-
-        showProgressBar(false);
-
     }
 
     private void connectToPeer(final int position) {
@@ -252,13 +248,13 @@ public class PeerActivity extends ActionBarActivity implements ChannelListener, 
 
     }
 
-    private void showProgressBar(boolean show) {
-        if (show) {
-            progressBar.setVisibility(View.VISIBLE);
-        } else {
-            progressBar.setVisibility(View.INVISIBLE);
-        }
-    }
+//    private void showProgressBar(boolean show) {
+//        if (show) {
+//            progressBar.setVisibility(View.VISIBLE);
+//        } else {
+//            progressBar.setVisibility(View.INVISIBLE);
+//        }
+//    }
 
     private void setConnected(boolean connected) {
         if (connected) {

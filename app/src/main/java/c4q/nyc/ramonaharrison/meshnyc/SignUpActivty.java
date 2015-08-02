@@ -14,7 +14,7 @@ public class SignUpActivty extends ActionBarActivity {
 
     TextView welcomeMessage;
     EditText ZIP_CODE, firstName, lastName;
-    String userName = "", zipCode = "";
+    public static String userName = "", zipCode = "";
     Button submit;
     Button contacts;
     TextView savedZip, savedUsername;
@@ -28,8 +28,6 @@ public class SignUpActivty extends ActionBarActivity {
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +37,7 @@ public class SignUpActivty extends ActionBarActivity {
         prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
         zipCode = prefs.getString(ZIP_CODE_KEY, "");
         userName = prefs.getString(USERNAME_CODE_KEY, "");
-        if (!zipCode.equals("") && !userName.equals("")) {
-            savedZip.setText("your zip code is: " + zipCode);
-            savedUsername.setText("your username is:" + userName);
-        }
+
 
         //welcome message
         welcomeMessage = (TextView) findViewById(R.id.welcome_message);
@@ -60,6 +55,11 @@ public class SignUpActivty extends ActionBarActivity {
         savedUsername = (TextView) findViewById(R.id.saved_username);
 
 
+        if (!zipCode.equals("") && !userName.equals("")) {
+            savedZip.setText("your zip code is: " + zipCode);
+            savedUsername.setText("your username is:" + userName);
+        }
+
         //submitting new zip code/moving on to next screen
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,18 +73,21 @@ public class SignUpActivty extends ActionBarActivity {
                     editor.putString(USERNAME_CODE_KEY, userName);
                     editor.apply();
                     savedZip.setText("your zip code is: " + ZIP_CODE.getText().toString());
-                    savedUsername.setText("your username is: " + userName);
-                } else{
-                    savedZip.setText("your zip code is: " + ZIP_CODE.getText().toString());
-                    savedUsername.setText("your username is: " + userName);
+                    savedUsername.setText("your username is:   " + userName);
+                } else {
+                    savedZip.setText("your zip code is:   " + ZIP_CODE.getText().toString());
+                    savedUsername.setText("your username is:   " + userName.toUpperCase());
                 }
+
+
                 //getting rid of views to add new fields
 //                view.setVisibility(View.GONE);
 //                ZIP_CODE.setVisibility(View.GONE);
 //                savedZip.setVisibility(View.GONE);
 //                welcomeMessage.setVisibility(View.GONE);
 
-
+                Intent intent = new Intent(SignUpActivty.this, ChooseContactsActivity.class);
+                startActivity(intent);
             }
         });
 
