@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:text="@string/find_peers"
             android:id="@+id/find_peers"
+            style="@style/button"
             android:layout_gravity="center" />
 
         <ListView

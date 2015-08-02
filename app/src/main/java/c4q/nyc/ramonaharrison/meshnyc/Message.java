@@ -4,28 +4,18 @@ package c4q.nyc.ramonaharrison.meshnyc;
  * Created by alvin2 on 8/1/15.
  */
 public class Message {
-    private String id;
     private String intention;
     private int isSent;
     private String name;
     private String timeStamp;
     private String messageContent;
 
-    public Message(String id, String intention, int isSent, String username, String timeStamp, String messageContent) {
-        this.id = id;
+    public Message(String intention, int isSent, String username, String timeStamp, String messageContent) {
         this.intention = intention;
         this.isSent = isSent;
         this.name = username;
         this.timeStamp = timeStamp;
         this.messageContent = messageContent;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getIntention() {

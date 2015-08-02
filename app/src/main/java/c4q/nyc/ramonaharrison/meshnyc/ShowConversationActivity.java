@@ -1,15 +1,14 @@
 package c4q.nyc.ramonaharrison.meshnyc;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,46 +20,50 @@ public class ShowConversationActivity extends ActionBarActivity {
     ArrayList<Message> conversationArray;
     ListView messageList;
     Button sendButton;
-    static EditText messageContent;
+    EditText messageContent;
+    RecentMessagesAsync async;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_conversation);
 
-        conversationArray = new ArrayList<>();
-        conversationArray.add(new Message("blah", "send", 0, "alvin", "hello", "HEY THERE HOW IS IT GOING"));
-        messageList = (ListView) findViewById(R.id.messageList);
-        adapter = new ConversationAdapter(getApplicationContext(), conversationArray);
-        messageList.setAdapter(adapter);
+        //get name of the person + message content when item on the list is clicked
+        Intent intent = getIntent();
+        String name = intent.getStringExtra("name");
+        String message = intent.getStringExtra("message");
+        Log.d("message", name + " " + message);
 
 
         messageContent = (EditText) findViewById(R.id.messageContent);
+        TextView messageTV =  (TextView) findViewById(R.id.message);
+        TextView receiver = (TextView) findViewById(R.id.receiver);
+
+        messageTV.setText(message);
+        receiver.setText(name);
+
         sendButton = (Button) findViewById(R.id.sendButton);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
-                Message message = new Message("ID", "SEND", 0, "NAME SENT TO HERE", currentTimestamp.toString(), messageContent.getText().toString());
+
+                Message message = new Message("SEND", 0, "NAME SENT TO HERE", currentTimestamp.toString(), messageContent.getText().toString());
                 conversationArray.add(message);
-                adapter.notifyDataSetChanged();
-                messageList.setAdapter(adapter);
 
                 SQLHelper helper = SQLHelper.getInstance(getApplicationContext());
-                helper.insertMessageRow(message.getId(), message.getIntention(), message.getIsSent(), message.getName(), message.getTimeStamp(), message.getMessageContent());
+                helper.insertMessageRow(message.getIntention(), message.getIsSent(), message.getName(), message.getTimeStamp(), message.getMessageContent());
                 messageContent.setText("");
 
-//                Toast.makeText(getApplicationContext(), helper.getAllMessages(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MessageActivity.class);
+        startActivity(intent);
 
-
-
-
-
+    }
 }

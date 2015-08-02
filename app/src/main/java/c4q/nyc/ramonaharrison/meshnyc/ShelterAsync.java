@@ -22,7 +22,6 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
 
     private static final String API_DATA = "https://searchbertha-hrd.appspot.com/_ah/api/search/v1/zipcodes/10101/programs?api_key=3007cb21281f817773bd7a1aff9adb75&serviceTag=emergency%20shelter";
     private Context context;
-    private static final String DATABASE_CREATED = "database_created";
 
     public ShelterAsync(Context context) {
         this.context = context;
@@ -105,12 +104,5 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
         String resultString = stringBuilder.toString();
         return resultString;
     }
-
 }
-
-//    //gets all shelters from table Shelters
-//    public ArrayList<Shelter> loadData() {
-//        SQLHelper helper = SQLHelper.getInstance(context);
-//        return helper.getAllShelters();
-//    }
 
