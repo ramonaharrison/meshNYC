@@ -54,44 +54,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
 
         bar = (ProgressBar)findViewById(R.id.progressBar);
 
-        Button button = (Button) findViewById(R.id.button2);
-        Button twitterButton = (Button) findViewById(R.id.twitter);
 
-        if (connectedNetwork()) {
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent alertIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://google.org/publicalerts"));
-                    startActivity(alertIntent);
-                }
-            });
-
-            twitterButton.setOnClickListener(new View.OnClickListener() {
-                Intent intent = null;
-
-                @Override
-                public void onClick(View v) {
-                    try {
-                        // get the Twitter app if possible
-                        getPackageManager().getPackageInfo("com.twitter.android", 0);
-                        intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?user_id=226631680"));
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    } catch (Exception e) {
-                        // no Twitter app, revert to browser
-                        intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/nycoem"));
-                    }
-                    startActivity(intent);
-
-                }
-            });
-        }else {
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Sorry no internet connection", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
 
 
 
