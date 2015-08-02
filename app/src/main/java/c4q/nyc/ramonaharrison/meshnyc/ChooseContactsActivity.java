@@ -45,7 +45,7 @@ public class ChooseContactsActivity extends ListActivity {
                 ContactsContract.CommonDataKinds.Phone.NUMBER};
         int[] to = {R.id.display_name,
                 R.id.phone_number};
-        final SimpleCursorAdapter listadapter = new SimpleCursorAdapter(this, R.layout.contacts_fields, Cursor1, from, to);
+        SimpleCursorAdapter listadapter = new SimpleCursorAdapter(this, R.layout.contacts_fields, Cursor1, from, to);
         setListAdapter(listadapter);
         lv = getListView();
         lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -67,7 +67,7 @@ public class ChooseContactsActivity extends ListActivity {
                 // fetch the Sms Manager
                 SmsManager sms = SmsManager.getDefault();
                 // the message
-                String messageText = "Hey download our app";
+                String messageText = "Checkout our cool project currently in development, meshNYC: https://github.com/ramonaharrison/meshNYC";
                 // the phone numbers we want to send to
                String[] numbers = {itemText};
 

@@ -12,16 +12,18 @@
     <TextView
         style="@style/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:gravity="center_horizontal"
         android:text="meshNYC"
-        android:textSize="50sp" />
+        android:textSize="50sp"
+        android:layout_weight="4"/>
 
     <ImageView
         android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
         android:padding="10dp"
+        android:layout_weight="10"
         android:src="@drawable/meshnyclogo" />
 
 
@@ -30,7 +32,7 @@
         style="@style/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="0.7"
         android:gravity="center"
         android:text="messaging"
         android:textSize="18sp" />
@@ -40,7 +42,7 @@
         style="@style/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="0.7"
         android:gravity="center"
         android:text="map"
         android:textSize="18sp" />
@@ -50,7 +52,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_weight="0.7">
 
         <Button
             android:id="@+id/button2"
@@ -78,7 +81,7 @@
     <Button
         android:id="@+id/signup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="3"
         android:background="@drawable/signup_button"
         android:gravity="center"
