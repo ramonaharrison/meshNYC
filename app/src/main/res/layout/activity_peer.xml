@@ -8,72 +8,73 @@
 
     <LinearLayout
         android:id="@+id/before_connection"
-        android:layout_weight="1"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/find_peers"
+            android:id="@+id/find_peers"
+            style="@style/button"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            android:text="Peers"/>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:id="@+id/peer_list_view"
+            android:layout_weight="2"/>
+
         <TextView
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:text="messages"
             style="@style/header"
             android:gravity="center_horizontal"
             android:textSize="40sp"
-            android:id="@+id/message_board" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/find_peers"
-            android:id="@+id/find_peers"
-            style="@style/button"
-            android:layout_gravity="center" />
-
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:id="@+id/peer_list_view" />
+            android:layout_weight="1"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="No Connections"
-            android:layout_margin="40dp"
-            android:layout_gravity="center"
-            android:id="@+id/progress_textview" />
+            android:gravity="center_horizontal"
+            android:id="@+id/progress_textview"
+            android:layout_weight="0"/>
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progress_bar"
-            android:layout_margin="20dp"
-            android:layout_gravity="center" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/after_connection"
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center">
-
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            style="@style/header"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            android:id="@+id/message_board"
+            android:layout_weight="2"/>
 
 
         <EditText
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:hint="Enter Message"
-            android:id="@+id/message_edit_text" />
+            android:id="@+id/message_edit_text"
+            android:layout_weight="1"/>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:text="Once you type your message, select the peer you would like to send it to."
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:layout_weight="1"/>
 
     </LinearLayout>
 
