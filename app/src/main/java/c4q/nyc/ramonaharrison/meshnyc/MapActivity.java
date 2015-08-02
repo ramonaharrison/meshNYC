@@ -1,9 +1,7 @@
 package c4q.nyc.ramonaharrison.meshnyc;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
@@ -15,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -33,13 +32,16 @@ import java.util.ArrayList;
 /**
  * Created by Hoshiko on 8/1/15.
  */
-public class MapActivity extends Activity implements OnMapReadyCallback, LocationListener, GoogleMap.OnInfoWindowClickListener, ClusterManager.OnClusterItemInfoWindowClickListener<MarkerCluster> {
+public class MapActivity extends Activity implements OnMapReadyCallback, LocationListener, GoogleMap.OnInfoWindowClickListener {
 
     GoogleMap mMap;
     Location location;
     MapFragment mapFragment;
     String zipcode;
     String googleStaticMap;
+
+    private ProgressBar bar;
+
 
 
     // Declare a variable for the cluster manager.
@@ -51,6 +53,8 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_layout);
+
+        bar = (ProgressBar)findViewById(R.id.progressBar);
 
         Button button = (Button) findViewById(R.id.button2);
 
@@ -148,7 +152,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
 //                .snippet("Population: 4,137,400"));
 
         setUpClusterer();
-        mClusterManager.setOnClusterItemInfoWindowClickListener (MapActivity.this);
+//        mClusterManager.setOnClusterItemInfoWindowClickListener (MapActivity.this);
 
     }
 
@@ -166,32 +170,56 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
         mMap.setOnCameraChangeListener(mClusterManager);
-        mMap.setOnMarkerClickListener(mClusterManager);
+//        mMap.setOnMarkerClickListener(mClusterManager);
+//        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//
+//                                          @Override
+//                                          public boolean onMarkerClick(Marker marker) {
+//
+//                                              String a = marker.getTitle();
+////                                              AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
+////                                              alertDialog.setTitle("Address of this shelter");
+////                                              alertDialog.setMessage("test");
+////                                              alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+////                                                      new DialogInterface.OnClickListener() {
+////                                                          public void onClick(DialogInterface dialog, int which) {
+////                                                              dialog.dismiss();
+////                                                          }
+////                                                      });
+////                                              alertDialog.show();
+//
+//                                              Toast.makeText(getApplicationContext(), a, Toast.LENGTH_SHORT).show();
+//                                              return true;
+//                                          }
+//
+//
+//                                      });
 
 
+        mClusterManager.setRenderer(new ClusterRendring(getApplicationContext(), mMap, mClusterManager));
 
-        // Add cluster items (markers) to the cluster manager.
-        ShelterListAsync shelterListTask = new ShelterListAsync();
-        shelterListTask.execute();
+        mClusterManager.setOnClusterItemClickListener(new ClusterManager.OnClusterItemClickListener<MarkerCluster>() {
+            @Override
+            public boolean onClusterItemClick(MarkerCluster markerCluster) {
+
+                String a = markerCluster.getTitle();
+                Toast.makeText(getApplicationContext(), a, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+        });
+
+
+            // Add cluster items (markers) to the cluster manager.
+            ShelterListAsync shelterListTask = new ShelterListAsync();
+            shelterListTask.execute();
 //        addItems();
-    }
+        }
 
-    @Override
-    public void onClusterItemInfoWindowClick(MarkerCluster marker) {
-        String a=marker.getTitle();
-        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-        alertDialog.setTitle("Address of this shelter");
-        alertDialog.setMessage(a);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
-    }
+//
 
-    @Override
+
+        @Override
     public void onInfoWindowClick(Marker marker) {
 
     }
@@ -229,6 +257,11 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
 
 //        private ClusterManager<MarkerCluster> mClusterManager;
 
+        protected void onPreExecute(){
+            bar.setVisibility(View.VISIBLE);
+        }
+
+
         @Override
         protected ClusterManager<MarkerCluster> doInBackground(Void... params) {
 
@@ -246,14 +279,22 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
                 String city = shelter.getCity();
                 String zip = shelter.getPostal();
                 fullAddress = address + ", " + city + " " + zip;
-                MarkerCluster mc = new MarkerCluster(lat, lng, address);
+                MarkerCluster mc = new MarkerCluster(lat, lng, fullAddress);
                 mClusterManager.addItem(mc);
             }
 
             return mClusterManager;
         }
 
+        @Override
+        protected void onPostExecute(ClusterManager<MarkerCluster> mClusterManager) {
+
+
+            bar.setVisibility(View.GONE);
+        }
     }
+
+
 //        @Override
 //        protected void onPostExecute(ClusterManager<MarkerCluster> mClusterManager) {
 ////            int shelterNum = shelterList.size();
