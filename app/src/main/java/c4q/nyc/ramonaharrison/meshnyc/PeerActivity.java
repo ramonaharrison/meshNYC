@@ -6,13 +6,15 @@ import android.content.IntentFilter;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
+import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.net.wifi.p2p.WifiP2pManager.Channel;
 import android.net.wifi.p2p.WifiP2pManager.ChannelListener;
+import android.net.wifi.p2p.WifiP2pManager.ConnectionInfoListener;
 import android.net.wifi.p2p.WifiP2pManager.PeerListListener;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,51 +33,55 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PeerActivity extends ActionBarActivity implements ChannelListener, PeerListListener {
+public class PeerActivity extends ActionBarActivity implements ChannelListener, ConnectionInfoListener, PeerListListener, MessageServerAsyncTask.AsyncResponse {
 
     private WifiP2pManager mManager;
     private Channel mChannel;
     private BroadcastReceiver mReceiver;
     private IntentFilter mIntentFilter;
-    private PeerListListener peerListListener;
     private Button findPeers;
     private ListView peersList;
     private List<WifiP2pDevice> peers;
     private WiFiPeerListAdapter peerAdapter;
     private ProgressBar progressBar;
     private TextView progressText;
+    private MessageServerAsyncTask messageServerAsyncTask;
+    private TextView messageBoard;
+    private EditText messageBox;
+    private GroupNode thisNode;
+    private GroupNode connectedNode;
+    private boolean isConnected;
+    private boolean isGroupOwner;
+
 
     final static String TAG = "PeerActivity";
+
+    final private String SEARCHING_FOR_PEERS = "Searching for peers...";
+    final private String CONNECTED_TO_PEER = "Connected to peer.";
+    final private String NO_PEERS = "No peers available.";
+    final private String SOMETHING_WENT_WRONG = "Something went wrong.";
+    final private String HANDSHAKE_RECIEVED = "Handshake received.";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_peer);
         peers = new ArrayList<>();
+        setConnected(false);
 
-        initializeView();
+        initializeUI();
         initializeWifiP2p();
         initializeIntentFilter();
 
     }
 
-    private void initializeView() {
-        getSupportActionBar().setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
-
+    private void initializeUI() {
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-        showProgressBar(false);
-
+        messageBoard = (TextView) findViewById(R.id.message_board);
+        messageBox = (EditText) findViewById(R.id.message_edit_text);
         progressText = (TextView) findViewById(R.id.progress_textview);
         findPeers = (Button) findViewById(R.id.find_peers);
-        findPeers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showProgressBar(true);
-                progressText.setText("Searching for peers...");
-                discoverPeers();
-            }
-        });
-
         peersList = (ListView) findViewById(R.id.peer_list_view);
         peerAdapter = new WiFiPeerListAdapter(
                 this,
@@ -82,27 +89,92 @@ public class PeerActivity extends ActionBarActivity implements ChannelListener, 
                 peers);
 
         peersList.setAdapter(peerAdapter);
+
+        findPeers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showProgressBar(true);
+                progressText.setText(SEARCHING_FOR_PEERS);
+                discoverPeers();
+            }
+        });
+
         peersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-                connectToPeer(position);
+                if (!isConnected) {
+                    connectToPeer(position);
+                } else {
+                    String message = messageBox.getText().toString();
+                    thisNode.sendMessage(connectedNode, message);
+                    startServer(isGroupOwner);
+                }
             }
+        });
+
+
+        showProgressBar(false);
+    }
+
+
+
+    public void setMessageBoard(String response) {
+        messageBoard.setText(response);
+        startServer(isGroupOwner);
+    }
+
+    @Override
+    public void receiveHandshake(String result) {
+        connectedNode = new GroupMember(result, ((GroupLeader)thisNode).getGroupLeaderAddress());
+        ((GroupLeader)thisNode).addGroupMember((GroupMember)connectedNode);
+        Log.d(TAG, HANDSHAKE_RECIEVED + result);
+        Toast.makeText(getApplicationContext(), HANDSHAKE_RECIEVED, Toast.LENGTH_SHORT).show();
+        startServer(isGroupOwner);
+    }
+
+    private void discoverPeers() {
+        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFailure(int reasonCode) {
+                showProgressBar(false);
+                Toast.makeText(getApplicationContext(), SOMETHING_WENT_WRONG, Toast.LENGTH_SHORT).show();
+                progressText.setText(NO_PEERS);
+            }
+
         });
     }
 
-    private void showProgressBar(boolean show) {
-        if (show) {
-            progressBar.setVisibility(View.VISIBLE);
+    @Override
+    public void onPeersAvailable(WifiP2pDeviceList peerList) {
+
+        peers.clear();
+        peers.addAll(peerList.getDeviceList());
+        peerAdapter.notifyDataSetChanged();
+
+
+        if (peers.size() == 0) {
+            progressText.setText(NO_PEERS);
+            Toast.makeText(getBaseContext(), NO_PEERS, Toast.LENGTH_SHORT).show();
+            return;
         } else {
-            progressBar.setVisibility(View.INVISIBLE);
+            progressText.setVisibility(View.INVISIBLE);
         }
+
+        showProgressBar(false);
+
     }
 
-    private void connectToPeer(int position) {
+    private void connectToPeer(final int position) {
         //obtain a peer from the WifiP2pDeviceList
 
-        WifiP2pDevice device = peers.get(position);
+        final WifiP2pDevice device = peers.get(position);
         WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = device.deviceAddress;
         mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
@@ -110,17 +182,42 @@ public class PeerActivity extends ActionBarActivity implements ChannelListener, 
             @Override
             public void onSuccess() {
                 //success logic
-                Toast.makeText(getApplicationContext(), "Connected to peer.", Toast.LENGTH_SHORT).show();
+                setConnected(true);
+                Toast.makeText(getApplicationContext(), CONNECTED_TO_PEER, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(int reasonCode) {
                 //failure logic
-                Toast.makeText(getApplicationContext(), "Something went wrong." + reasonCode, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), SOMETHING_WENT_WRONG + reasonCode, Toast.LENGTH_SHORT).show();
 
             }
 
         });
+    }
+
+    @Override
+    public void onConnectionInfoAvailable(WifiP2pInfo info) {
+
+        // Start the async server socket
+        if (info.groupFormed) {
+
+            // Delegate leader or members
+            if (info.isGroupOwner) {
+                isGroupOwner = true;
+                thisNode = new GroupLeader(info.groupOwnerAddress.getHostAddress());
+                startServer(isGroupOwner);
+            } else {
+                isGroupOwner = false;
+                thisNode = new GroupMember(info.groupOwnerAddress.getHostAddress());
+                ((GroupMember)thisNode).sendHandshake();
+                connectedNode = new GroupLeader(info.groupOwnerAddress.getHostAddress());
+                startServer(isGroupOwner);
+            }
+            Log.d(TAG, "Group formed.");
+            Toast.makeText(getApplicationContext(), "Group formed.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void initializeWifiP2p() {
@@ -136,55 +233,18 @@ public class PeerActivity extends ActionBarActivity implements ChannelListener, 
         mIntentFilter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION);
     }
 
-    private void discoverPeers() {
-        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
-            @Override
-            public void onSuccess() {
-                showProgressBar(false);
-            }
+    private void startServer(boolean leader) {
 
-            @Override
-            public void onFailure(int reasonCode) {
-                showProgressBar(false);
-                Toast.makeText(getApplicationContext(), "Something went wrong." + reasonCode, Toast.LENGTH_SHORT).show();
-                progressText.setText("No peers found.");
-            }
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mReceiver = new WiFiDirectBroadcastReceiver(mManager, mChannel, this);
-        registerReceiver(mReceiver, mIntentFilter);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(mReceiver);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (leader) {
+            messageServerAsyncTask = new MessageServerAsyncTask(this, 8888);
+            messageServerAsyncTask.delegate = this;
+            messageServerAsyncTask .execute();
+        } else {
+            messageServerAsyncTask = new MessageServerAsyncTask(this, 8889);
+            messageServerAsyncTask.delegate = this;
+            messageServerAsyncTask .execute();
         }
 
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -192,28 +252,26 @@ public class PeerActivity extends ActionBarActivity implements ChannelListener, 
 
     }
 
-    @Override
-    public void onPeersAvailable(WifiP2pDeviceList peerList) {
-
-        peers.clear();
-        peers.addAll(peerList.getDeviceList());
-
-//        List<WifiP2pDevice> updatedPeers = (List) peerList.getDeviceList();
-//        for (WifiP2pDevice x : updatedPeers){
-//            if (!peers.contains(x))
-//                peers.add(x);
-//        }
-        peerAdapter.notifyDataSetChanged();
-
-
-        if (peers.size() == 0) {
-            progressText.setText("No peers found.");
-            Toast.makeText(getBaseContext(), "No peers found.", Toast.LENGTH_SHORT).show();
-            return;
+    private void showProgressBar(boolean show) {
+        if (show) {
+            progressBar.setVisibility(View.VISIBLE);
         } else {
-            progressText.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
+
+    private void setConnected(boolean connected) {
+        if (connected) {
+            isConnected = true;
+        } else {
+            isConnected = false;
+        }
+    }
+
+
+    /**
+     * Adapter class for populating the listview with peer info
+     */
 
 
     public class WiFiPeerListAdapter extends ArrayAdapter<WifiP2pDevice> {
@@ -256,6 +314,41 @@ public class PeerActivity extends ActionBarActivity implements ChannelListener, 
             return v;
 
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mReceiver = new WiFiDirectBroadcastReceiver(mManager, mChannel, this);
+        registerReceiver(mReceiver, mIntentFilter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mReceiver);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

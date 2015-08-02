@@ -38,10 +38,10 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
 
             int state = intent.getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1);
             if (state == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
-                // TODO: Wifi P2P is enabled -- launch MeshActivity
+                // Wifi P2P is enabled
 
             } else {
-                // TODO: Wifi P2P is not enabled -- notify user that something went wrong
+                // Wifi P2P is not enabled
 
             }
 
@@ -55,13 +55,11 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
 
         } else if (WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION.equals(action)) {
             // Respond to new connection or disconnections
-
+            mManager.requestConnectionInfo(mChannel, mActivity);
 
 
         } else if (WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION.equals(action)) {
             // Respond to this device's wifi state changing
-
-
 
         }
     }
