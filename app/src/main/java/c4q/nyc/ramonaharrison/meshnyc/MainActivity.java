@@ -1,16 +1,20 @@
 package c4q.nyc.ramonaharrison.meshnyc;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+
 
 public class MainActivity extends Activity {
 
@@ -20,6 +24,21 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        Button bt = (Button)findViewById(R.id.mapbutton);
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mapIntent = new Intent(MainActivity.this, MapActivity.class);
+                MainActivity.this.startActivity(mapIntent);
+            }
+        });
+
+
+        TextView map = (TextView) findViewById(R.id.map);
+        TextView settings = (TextView) findViewById(R.id.settings);
+
 
         //parses JSON and stores all shelters in SQLite
         if (!noNetwork()) {
@@ -32,6 +51,12 @@ public class MainActivity extends Activity {
 //        SQLiteDatabase db = helper.getReadableDatabase();
 //        long numRows = DatabaseUtils.queryNumEntries(db, "shelters");
 //        Log.i("yuliya", "" + numRows);
+
+
+        //CHECKS HOW MANY MSGS ARE IN SQLITE TO CONFIRM THEY ARE STORING SUCCESSFULLY
+//        long numMsgRows = DatabaseUtils.queryNumEntries(db, "messages");
+//        Log.i("alvin", "" + numMsgRows);
+
     }
 
 

@@ -1,17 +1,18 @@
 package c4q.nyc.ramonaharrison.meshnyc;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.database.DatabaseUtils;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+
 import javax.net.ssl.HttpsURLConnection;
 
 /**
@@ -28,9 +29,11 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
+
         //delete table shelters with old data and create a new table shelters with new data
         SQLHelper helper = SQLHelper.getInstance(context);
         helper.updateTableShelters();
+
 
         String result = null;
         try {
@@ -49,8 +52,10 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
+
     //method to parse JSON
     public void parseJSON(String rawString) throws JSONException {
+        int count = 0;
         String city;
         JSONObject obj = new JSONObject(rawString);
         JSONArray main = obj.getJSONArray("programs");
@@ -66,8 +71,7 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
                 double longitude = location.getDouble("longitude");
                 if (info.has("city")) {
                     city = info.getString("city");
-                }
-                else{
+                } else {
                     city = "N/A";
                 }
                 String address = info.getString("address1");
@@ -76,6 +80,13 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
                 //insert a row in db
                 SQLHelper helper = SQLHelper.getInstance(context);
                 helper.insertRow(city, address, latitude, longitude, postal);
+
+                count++;
+
+
+                Log.i("yuliya", city + " " + address + " " + postal + " " + latitude + " " + longitude);
+                Log.i("yuliya", "number of shelters" + count);
+
             }
         }
     }
@@ -94,3 +105,4 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
         return resultString;
     }
 }
+

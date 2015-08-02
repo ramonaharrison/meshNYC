@@ -4,24 +4,21 @@ import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.TwoLineListItem;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 
 public class ShowConversationActivity extends ActionBarActivity {
 
+    ConversationAdapter adapter;
+    ArrayList<Message> conversationArray;
+    ListView messageList;
     Button sendButton;
     EditText messageContent;
     RecentMessagesAsync async;
@@ -36,6 +33,7 @@ public class ShowConversationActivity extends ActionBarActivity {
         String name = intent.getStringExtra("name");
         String message = intent.getStringExtra("message");
         Log.d("message", name + " " + message);
+
 
         messageContent = (EditText) findViewById(R.id.messageContent);
         TextView messageTV =  (TextView) findViewById(R.id.message);
