@@ -2,6 +2,8 @@ package c4q.nyc.ramonaharrison.meshnyc;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -29,11 +31,12 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
+        //delete table shelters with old data and create a new table shelters with new data
         SQLHelper helper = SQLHelper.getInstance(context);
-        helper.deleteTableShelters();
+        helper.updateTableShelters();
+
         String result = null;
         try {
-
             //open connection
             result = openConnection();
         } catch (IOException e) {
@@ -46,15 +49,11 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-//        //store boolean in sharedpreference that DB is created
-//        databaseCreated(context);
         return null;
     }
 
     //method to parse JSON
     public void parseJSON(String rawString) throws JSONException {
-        int count = 0;
         String city;
         JSONObject obj = new JSONObject(rawString);
         JSONArray main = obj.getJSONArray("programs");
@@ -80,9 +79,6 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
                 //insert a row in db
                 SQLHelper helper = SQLHelper.getInstance(context);
                 helper.insertRow(city, address, latitude, longitude, postal);
-                count++;
-
-                Log.i("yuliya", count + " ");
             }
         }
     }
@@ -101,10 +97,10 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
         return resultString;
     }
 
-    public void databaseCreated(Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(DATABASE_CREATED, true);
-        editor.commit();
-    }
+//    public void databaseCreated(Context context) {
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putBoolean(DATABASE_CREATED, true);
+//        editor.commit();
+//    }
 }

@@ -2,28 +2,36 @@ package c4q.nyc.ramonaharrison.meshnyc;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends Activity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-//        boolean databaseCreated =sharedPref.getBoolean("database_created", false);
-
         //parses JSON and stores all shelters in SQLite
         if (!noNetwork()) {
             ShelterAsync sa = new ShelterAsync(this);
             sa.execute();
         }
+
+        //for Hoshiko to check that table shelters is created once and get updated
+        SQLHelper helper =SQLHelper.getInstance(this);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        long numRows = DatabaseUtils.queryNumEntries(db, "shelters");
+        Log.i("yuliya", "" + numRows);
     }
 
 

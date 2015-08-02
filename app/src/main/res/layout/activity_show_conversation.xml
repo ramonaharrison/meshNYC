@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/show_conversation_ui_recipient"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:ellipsize="end"
+        android:text="RECIEVER"
+        android:gravity="center_horizontal"
+        />
+
+    <EditText
+        android:id="@+id/messageContent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/sendButton"
+        android:layout_marginRight="1dp"
+        android:hint="Enter Message"
+        android:inputType="textMultiLine"
+        android:maxLines="3" />
+
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/messageContent"
+        android:layout_alignParentRight="true"
+        android:text="SEND" />
+
+    <ListView
+        android:id="@+id/messageList"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/messageContent"
+        android:layout_below="@id/show_conversation_ui_recipient"
+        android:dividerHeight="0px" />
+
+</RelativeLayout>
