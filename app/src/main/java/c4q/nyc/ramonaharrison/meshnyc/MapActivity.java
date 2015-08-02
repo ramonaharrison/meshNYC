@@ -228,7 +228,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
 
         @Override
         protected void onPostExecute(ClusterManager<MarkerCluster> mClusterManager) {
-            
+
             bar.setVisibility(View.GONE);
         }
 
