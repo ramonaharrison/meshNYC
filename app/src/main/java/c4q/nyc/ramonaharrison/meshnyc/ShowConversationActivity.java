@@ -55,6 +55,7 @@ public class ShowConversationActivity extends ActionBarActivity {
                 messageContent.setText("");
 
             }
+
         });
     }
 
