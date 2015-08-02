@@ -42,8 +42,6 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
 
     private ProgressBar bar;
 
-
-
     // Declare a variable for the cluster manager.
     ClusterManager<MarkerCluster> mClusterManager;
     private String fullAddress;
@@ -57,6 +55,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
         bar = (ProgressBar)findViewById(R.id.progressBar);
 
         Button button = (Button) findViewById(R.id.button2);
+        Button twitterButton = (Button) findViewById(R.id.twitter);
 
         if (connectedNetwork()) {
             button.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +63,24 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
                 public void onClick(View v) {
                     Intent alertIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://google.org/publicalerts"));
                     startActivity(alertIntent);
+                }
+            });
+
+            twitterButton.setOnClickListener(new View.OnClickListener() {
+                Intent intent = null;
+
+                @Override
+                public void onClick(View v) {
+                    try {
+                        // get the Twitter app if possible
+                        getPackageManager().getPackageInfo("com.twitter.android", 0);
+                        intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?user_id=226631680"));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    } catch (Exception e) {
+                        // no Twitter app, revert to browser
+                        intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/nycoem"));
+                    }
+                    startActivity(intent);
 
                 }
             });
@@ -74,8 +91,8 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
                     Toast.makeText(getApplicationContext(), "Sorry no internet connection", Toast.LENGTH_SHORT).show();
                 }
             });
-
         }
+
 
 
         // Getting Google Play availability status
@@ -99,14 +116,6 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
             mMap.setMyLocationEnabled(true);
 
 
-
-//            zipcode = "11217";
-//
-//            googleStaticMap = "http://maps.google.com/maps/api/staticmap?center=" + zipcode + "&zoom=17&size=600x600&sensor=&maptype=roadmap" +
-//                    "&markers=color:blue%7Clabel:S%7C" + zipcode;
-//
-
-
             // Getting LocationManager object from System Service LOCATION_SERVICE
             LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -127,8 +136,13 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
                 onLocationChanged(location);
             }
 
-
         }
+
+
+        setUpClusterer();
+        // Add cluster items (markers) to the cluster manager.
+        ShelterListAsync shelterListTask = new ShelterListAsync();
+        shelterListTask.execute();
 
     }
 
@@ -140,19 +154,8 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-//        mMap.addMarker(new MarkerOptions()
-//                .position(new LatLng(10, 10))
-//                .title("Hello world"));
-//
-//
-//        final LatLng MELBOURNE = new LatLng(-37.813, 144.962);
-//         Marker melbourne = mMap.addMarker(new MarkerOptions()
-//                .position(MELBOURNE)
-//                .title("Melbourne")
-//                .snippet("Population: 4,137,400"));
 
-        setUpClusterer();
-//        mClusterManager.setOnClusterItemInfoWindowClickListener (MapActivity.this);
+
 
     }
 
@@ -170,30 +173,6 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
         // Point the map's listeners at the listeners implemented by the cluster
         // manager.
         mMap.setOnCameraChangeListener(mClusterManager);
-//        mMap.setOnMarkerClickListener(mClusterManager);
-//        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-//
-//                                          @Override
-//                                          public boolean onMarkerClick(Marker marker) {
-//
-//                                              String a = marker.getTitle();
-////                                              AlertDialog alertDialog = new AlertDialog.Builder(getApplicationContext()).create();
-////                                              alertDialog.setTitle("Address of this shelter");
-////                                              alertDialog.setMessage("test");
-////                                              alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-////                                                      new DialogInterface.OnClickListener() {
-////                                                          public void onClick(DialogInterface dialog, int which) {
-////                                                              dialog.dismiss();
-////                                                          }
-////                                                      });
-////                                              alertDialog.show();
-//
-//                                              Toast.makeText(getApplicationContext(), a, Toast.LENGTH_SHORT).show();
-//                                              return true;
-//                                          }
-//
-//
-//                                      });
 
 
         mClusterManager.setRenderer(new ClusterRendring(getApplicationContext(), mMap, mClusterManager));
@@ -210,57 +189,18 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
         });
 
 
-            // Add cluster items (markers) to the cluster manager.
-            ShelterListAsync shelterListTask = new ShelterListAsync();
-            shelterListTask.execute();
-//        addItems();
-        }
-
-//
+    }
 
 
-        @Override
+
+
+    @Override
     public void onInfoWindowClick(Marker marker) {
 
     }
 
-//    private void addItems() {
-//
-//        // Set some lat/lng coordinates to start with.
-//        double lat = 40.7069308;
-//        double lng = -74.0053852;
-//
-//        // Add ten cluster items in close proximity, for purposes of this example.
-//        for (int i = 0; i < 10; i++) {
-//            double offset = i / 60d;
-//            lat = lat + offset;
-//            lng = lng + offset;
-//
-//            Toast.makeText(getApplicationContext(), lat + ", " + lng, Toast.LENGTH_SHORT).show();
-//
-//            MarkerCluster offsetItem = new MarkerCluster(lat, lng);
-//            mClusterManager.addItem(offsetItem);
-//        }
-//        ArrayList <Shelter> shelterList = new ArrayList<Shelter>();
-//
-//        int shelterNum = shelterList.size();
-//        for (int i = 0; i < 20; i++) {
-//            Shelter shelter = shelterList.get(i);
-//            double lng = shelter.getLongitude();
-//            double lat = shelter.getLatitude();
-//            MarkerCluster mc = new MarkerCluster(lat, lng);
-//            mClusterManager.addItem(mc);
-//        }
-
 
     public class ShelterListAsync extends AsyncTask<Void, Void, ClusterManager<MarkerCluster> > {
-
-//        private ClusterManager<MarkerCluster> mClusterManager;
-
-        protected void onPreExecute(){
-            bar.setVisibility(View.VISIBLE);
-        }
-
 
         @Override
         protected ClusterManager<MarkerCluster> doInBackground(Void... params) {
@@ -288,28 +228,11 @@ public class MapActivity extends Activity implements OnMapReadyCallback, Locatio
 
         @Override
         protected void onPostExecute(ClusterManager<MarkerCluster> mClusterManager) {
-
-
+            
             bar.setVisibility(View.GONE);
         }
+
     }
-
-
-//        @Override
-//        protected void onPostExecute(ClusterManager<MarkerCluster> mClusterManager) {
-////            int shelterNum = shelterList.size();
-////
-////            for (int i = 0; i < shelterNum; i++) {
-////
-////                Shelter shelter = shelterList.get(i);
-////                double lat = shelter.getLongitude();
-////                double lng = shelter.getLatitude();
-////                Toast.makeText(getApplicationContext(), lat + ", " + lng, Toast.LENGTH_SHORT).show();
-////                MarkerCluster mc = new MarkerCluster(lat, lng);
-////                mClusterManager.addItem(mc);
-//
-//            }
-//        }
 
 
     private boolean connectedNetwork() {
