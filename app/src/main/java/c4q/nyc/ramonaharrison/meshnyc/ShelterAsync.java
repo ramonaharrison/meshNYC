@@ -23,7 +23,6 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
 
     private static final String API_DATA = "https://searchbertha-hrd.appspot.com/_ah/api/search/v1/zipcodes/10101/programs?api_key=3007cb21281f817773bd7a1aff9adb75&serviceTag=emergency%20shelter";
     private Context context;
-    private static final String DATABASE_CREATED = "database_created";
 
     public ShelterAsync(Context context) {
         this.context = context;
@@ -96,11 +95,4 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
         String resultString = stringBuilder.toString();
         return resultString;
     }
-
-//    public void databaseCreated(Context context) {
-//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putBoolean(DATABASE_CREATED, true);
-//        editor.commit();
-//    }
 }

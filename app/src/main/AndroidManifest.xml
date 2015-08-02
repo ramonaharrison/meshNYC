@@ -21,12 +21,6 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -44,7 +38,14 @@
             android:label="@string/title_activity_choose_contacts" />
 
         <activity android:name=".MapActivity" />
-        <activity android:name=".MessageActivity" />
+        <activity android:name=".MessageActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".SettingsActivity" />
         <activity
             android:name=".PeerActivity"
@@ -55,7 +56,9 @@
 
         <activity
             android:name=".ShowConversationActivity"
-            android:label="@string/title_activity_show_conversation" />
+            android:label="@string/title_activity_show_conversation">
+        </activity>
+
     </application>
 
 </manifest>

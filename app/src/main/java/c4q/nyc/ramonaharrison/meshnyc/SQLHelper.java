@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,6 @@ public class SQLHelper extends SQLiteOpenHelper {
             Columns.COLUMN_LONGITUDE + " INTEGER," +
             Columns.COLUMN_POSTAL + " TEXT" +
             " )";
-
-
 
     //create table messages
     private static final String SQL_CREATE_MESSAGES = "CREATE TABLE " + MessageColumns.TABLE_NAME_MESSAGES + " (" +
@@ -144,7 +143,7 @@ public class SQLHelper extends SQLiteOpenHelper {
 
 
     // TODO: PUT THIS WHEN MESSAGE IS SENT OR RECEIVED
-    public void insertMessageRow(String id, String intention, int isSent, String name, String timeStamp, String messageContent) {
+    public void insertMessageRow(String intention, int isSent, String name, String timeStamp, String messageContent) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -178,7 +177,6 @@ public class SQLHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(MessageColumns.TABLE_NAME_MESSAGES, projection, null, null, null, null, null);
         while (cursor.moveToNext()) {
             messages.add(new Message(
-                    cursor.getString(cursor.getColumnIndex(MessageColumns._ID)),
                     cursor.getString(cursor.getColumnIndex(MessageColumns.COLUMN_MESSAGE_INTENTION)),
                     cursor.getInt(cursor.getColumnIndex(MessageColumns.COLUMN_MESSAGE_SEND_STATUS)),
                     cursor.getString(cursor.getColumnIndex(MessageColumns.COLUMN_MESSAGE_TO_NAME)),
@@ -187,5 +185,36 @@ public class SQLHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return messages.size();
+    }
+
+    public List<Message> getMostRecentMessages() {
+        String[] projection = {
+                MessageColumns._ID,
+                MessageColumns.COLUMN_MESSAGE_INTENTION,
+                MessageColumns.COLUMN_MESSAGE_SEND_STATUS,
+                MessageColumns.COLUMN_MESSAGE_TO_NAME,
+                MessageColumns.COLUMN_MESSAGE_TIMESTAMP,
+                MessageColumns.COLUMN_MESSAGE_CONTENT,
+        };
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        List<Message> recentMessages = new ArrayList<>();
+
+        Cursor cursor = db.query(MessageColumns.TABLE_NAME_MESSAGES, projection, null, null, null, null, "msgTimestamp DESC");
+        while(cursor.moveToNext())
+        {
+            recentMessages.add(new Message(
+                    cursor.getString(cursor.getColumnIndex(MessageColumns.COLUMN_MESSAGE_INTENTION)),
+                    cursor.getInt(cursor.getColumnIndex(MessageColumns.COLUMN_MESSAGE_SEND_STATUS)),
+                    cursor.getString(cursor.getColumnIndex(MessageColumns.COLUMN_MESSAGE_TO_NAME)),
+                    cursor.getString(cursor.getColumnIndex(MessageColumns.COLUMN_MESSAGE_TIMESTAMP)),
+                    cursor.getString(cursor.getColumnIndex(MessageColumns.COLUMN_MESSAGE_CONTENT))));
+            Log.i("cursor", cursor.getString(cursor.getColumnIndex(MessageColumns.COLUMN_MESSAGE_TIMESTAMP)));
+        }
+
+        cursor.close();
+
+        return recentMessages;
     }
 }
