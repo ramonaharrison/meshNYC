@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SQLHelper extends SQLiteOpenHelper {
 
@@ -133,6 +132,9 @@ public class SQLHelper extends SQLiteOpenHelper {
 
 
 
+
+
+
     public static abstract class MessageColumns implements BaseColumns {
         public static final String TABLE_NAME_MESSAGES = "messages";
         public static final String COLUMN_MESSAGE_INTENTION = "msgIntention";
@@ -144,7 +146,7 @@ public class SQLHelper extends SQLiteOpenHelper {
 
 
     // TODO: PUT THIS WHEN MESSAGE IS SENT OR RECEIVED
-    public void insertMessageRow(String id, String intention, int isSent, String name, String timeStamp, String messageContent) {
+    public void insertMessageRow(String intention, int isSent, String name, String timeStamp, String messageContent) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -178,7 +180,6 @@ public class SQLHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(MessageColumns.TABLE_NAME_MESSAGES, projection, null, null, null, null, null);
         while (cursor.moveToNext()) {
             messages.add(new Message(
-                    cursor.getString(cursor.getColumnIndex(MessageColumns._ID)),
                     cursor.getString(cursor.getColumnIndex(MessageColumns.COLUMN_MESSAGE_INTENTION)),
                     cursor.getInt(cursor.getColumnIndex(MessageColumns.COLUMN_MESSAGE_SEND_STATUS)),
                     cursor.getString(cursor.getColumnIndex(MessageColumns.COLUMN_MESSAGE_TO_NAME)),

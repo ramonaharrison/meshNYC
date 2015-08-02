@@ -41,11 +41,11 @@ public class ShowConversationActivity extends ActionBarActivity {
             public void onClick(View view) {
                 java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
                 // TODO: FILL IN WITH THE PROPER PARAMETERS
-                Message message = new Message("ID", "SEND", 0, "NAME SENT TO HERE", currentTimestamp.toString(), messageContent.getText().toString());
+                Message message = new Message("SEND", 0, "NAME SENT TO HERE", currentTimestamp.toString(), messageContent.getText().toString());
                 conversationArray.add(message);
 
                 SQLHelper helper = SQLHelper.getInstance(getApplicationContext());
-                helper.insertMessageRow(message.getId(), message.getIntention(), message.getIsSent(), message.getName(), message.getTimeStamp(), message.getMessageContent());
+                helper.insertMessageRow(message.getIntention(), message.getIsSent(), message.getName(), message.getTimeStamp(), message.getMessageContent());
                 messageContent.setText("");
 
             }
