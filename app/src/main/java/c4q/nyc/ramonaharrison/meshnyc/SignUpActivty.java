@@ -39,10 +39,7 @@ public class SignUpActivty extends ActionBarActivity {
         prefs = getSharedPreferences(MY_PREFS, MODE_PRIVATE);
         zipCode = prefs.getString(ZIP_CODE_KEY, "");
         userName = prefs.getString(USERNAME_CODE_KEY, "");
-        if (!zipCode.equals("") && !userName.equals("")) {
-            savedZip.setText("your zip code is: " + zipCode);
-            savedUsername.setText("your username is:" + userName);
-        }
+
 
         //welcome message
         welcomeMessage = (TextView) findViewById(R.id.welcome_message);
@@ -59,6 +56,11 @@ public class SignUpActivty extends ActionBarActivity {
         lastName = (EditText) findViewById(R.id.lastName);
         savedUsername = (TextView) findViewById(R.id.saved_username);
 
+
+        if (!zipCode.equals("") && !userName.equals("")) {
+            savedZip.setText("your zip code is: " + zipCode);
+            savedUsername.setText("your username is:" + userName);
+        }
 
         //submitting new zip code/moving on to next screen
         submit.setOnClickListener(new View.OnClickListener() {
