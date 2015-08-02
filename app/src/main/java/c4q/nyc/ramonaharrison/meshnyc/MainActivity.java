@@ -2,25 +2,60 @@ package c4q.nyc.ramonaharrison.meshnyc;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.DatabaseUtils;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+
+
 public class MainActivity extends Activity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView messages = (TextView) findViewById(R.id.messages);
+
+
+        Button bt = (Button)findViewById(R.id.mapbutton);
+        bt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mapIntent = new Intent(MainActivity.this, MapActivity.class);
+                MainActivity.this.startActivity(mapIntent);
+            }
+        });
+
+
         TextView map = (TextView) findViewById(R.id.map);
         TextView settings = (TextView) findViewById(R.id.settings);
 
+
         //parses JSON and stores all shelters in SQLite
-        ShelterAsync sa = new ShelterAsync(this);
-        sa.execute();
+        if (!noNetwork()) {
+            ShelterAsync sa = new ShelterAsync(this);
+            sa.execute();
+        }
+
+        //for Hoshiko to check that table shelters is created once and get updated
+        SQLHelper helper =SQLHelper.getInstance(this);
+        SQLiteDatabase db = helper.getReadableDatabase();
+        long numRows = DatabaseUtils.queryNumEntries(db, "shelters");
+        Log.i("yuliya", "" + numRows);
+
+        //CHECKS HOW MANY MSGS ARE IN SQLITE TO CONFIRM THEY ARE STORING SUCCESSFULLY
+//        long numMsgRows = DatabaseUtils.queryNumEntries(db, "messages");
+//        Log.i("alvin", "" + numMsgRows);
+
     }
 
 
@@ -46,18 +81,15 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void sendToMessagingTab() {
-        Intent intent = new Intent(MainActivity.this, MessageActivity.class);
-        startActivity(intent);
+    //method to check Internet connection
+    private boolean noNetwork() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni == null) {
+            // There are no active networks.
+            return true;
+        } else
+            return false;
     }
 
-    public void sendToMapTab() {
-        Intent intent = new Intent(MainActivity.this, MapActivity.class);
-        startActivity(intent);
-    }
-
-    public void sendToSettingsTab() {
-        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-        startActivity(intent);
-    }
 }

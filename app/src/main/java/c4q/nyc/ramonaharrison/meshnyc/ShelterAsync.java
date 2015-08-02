@@ -3,35 +3,41 @@ package c4q.nyc.ramonaharrison.meshnyc;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by July on 8/1/15.
  */
-public class ShelterAsync extends AsyncTask<Void, Void, ArrayList<Shelter>> {
+public class ShelterAsync extends AsyncTask<Void, Void, Void> {
 
     private static final String API_DATA = "https://searchbertha-hrd.appspot.com/_ah/api/search/v1/zipcodes/10101/programs?api_key=3007cb21281f817773bd7a1aff9adb75&serviceTag=emergency%20shelter";
     private Context context;
+    private static final String DATABASE_CREATED = "database_created";
 
     public ShelterAsync(Context context) {
         this.context = context;
     }
 
     @Override
-    protected ArrayList<Shelter> doInBackground(Void... voids) {
+    protected Void doInBackground(Void... voids) {
+
+        //delete table shelters with old data and create a new table shelters with new data
+        SQLHelper helper = SQLHelper.getInstance(context);
+        helper.updateTableShelters();
+
+
         String result = null;
         try {
-
             //open connection
             result = openConnection();
         } catch (IOException e) {
@@ -44,12 +50,13 @@ public class ShelterAsync extends AsyncTask<Void, Void, ArrayList<Shelter>> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        return loadData();
+        return null;
     }
+
 
     //method to parse JSON
     public void parseJSON(String rawString) throws JSONException {
+        int count = 0;
         String city;
         JSONObject obj = new JSONObject(rawString);
         JSONArray main = obj.getJSONArray("programs");
@@ -65,8 +72,7 @@ public class ShelterAsync extends AsyncTask<Void, Void, ArrayList<Shelter>> {
                 double longitude = location.getDouble("longitude");
                 if (info.has("city")) {
                     city = info.getString("city");
-                }
-                else{
+                } else {
                     city = "N/A";
                 }
                 String address = info.getString("address1");
@@ -76,7 +82,12 @@ public class ShelterAsync extends AsyncTask<Void, Void, ArrayList<Shelter>> {
                 SQLHelper helper = SQLHelper.getInstance(context);
                 helper.insertRow(city, address, latitude, longitude, postal);
 
+                count++;
+
+
                 Log.i("yuliya", city + " " + address + " " + postal + " " + latitude + " " + longitude);
+                Log.i("yuliya", "number of shelters" + count);
+
             }
         }
     }
@@ -95,9 +106,11 @@ public class ShelterAsync extends AsyncTask<Void, Void, ArrayList<Shelter>> {
         return resultString;
     }
 
-    //gets all shelters from table Shelters
-    public ArrayList<Shelter> loadData() {
-        SQLHelper helper = SQLHelper.getInstance(context);
-        return helper.getAllShelters();
-    }
 }
+
+//    //gets all shelters from table Shelters
+//    public ArrayList<Shelter> loadData() {
+//        SQLHelper helper = SQLHelper.getInstance(context);
+//        return helper.getAllShelters();
+//    }
+
