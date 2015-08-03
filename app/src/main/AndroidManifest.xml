@@ -70,6 +70,7 @@
         <activity android:name=".SettingsActivity" />
         <activity
             android:name=".PeerActivity"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" >
         </activity>
         <activity
