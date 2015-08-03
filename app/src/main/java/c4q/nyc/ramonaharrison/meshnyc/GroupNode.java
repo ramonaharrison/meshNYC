@@ -18,12 +18,15 @@ public abstract class GroupNode {
 
     public void sendMessage(GroupNode node, String message) {
 
-        if (node instanceof GroupLeader) {
-            // sending a message to the group leader
-            (new Thread(new ClientSocket(((GroupLeader) node).getGroupLeaderAddress(), leaderPortIn, message))).start();
-        } else {
-            // sending a message
-            (new Thread(new ClientSocket(((GroupMember) node).getGroupMemberAddress(), memberPortIn, message))).start();
+        if (node != null) {
+
+            if (node instanceof GroupLeader) {
+                // sending a message to the group leader
+                (new Thread(new ClientSocket(((GroupLeader) node).getGroupLeaderAddress(), leaderPortIn, message))).start();
+            } else {
+                // sending a message
+                (new Thread(new ClientSocket(((GroupMember) node).getGroupMemberAddress(), memberPortIn, message))).start();
+            }
         }
 
     }

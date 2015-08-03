@@ -12,52 +12,20 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="@string/find_peers"
-            android:id="@+id/find_peers"
-            style="@style/button"
-            android:layout_gravity="center"/>
-
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textSize="20sp"
-            android:padding="8dp"
-            android:text="Available Peers"/>
-
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:id="@+id/peer_list_view"
-            android:layout_weight="4"/>
-
-        <TextView
+            style="@style/header"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:text="messages"
-            style="@style/header"
             android:gravity="center_horizontal"
-            android:textSize="35sp"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:text="____________________________________"
-            style="@style/header"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:layout_weight="1"/>
+            android:textSize="40sp"
+            android:layout_weight="2"
+            android:id="@+id/textView" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="No Connections"
-            android:gravity="center_horizontal"
             android:id="@+id/progress_textview"
             android:layout_weight="0"/>
 
@@ -65,11 +33,12 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:gravity="center_horizontal"
             android:textColor="#000"
             android:textSize="20sp"
+            android:padding="12dp"
             android:id="@+id/message_board"
-            android:layout_weight="2"/>
+            android:background="#ffffff"
+            android:layout_weight="3"/>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -79,17 +48,36 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Message"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:id="@+id/message_edit_text"/>
 
         </ScrollView>
 
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:text="Once you type your message, select the peer you would like to send it to."
-            android:gravity="center_horizontal"
+            android:layout_marginLeft="6dp"
+            android:text="Send to:"
+            android:textSize="20sp"
             android:layout_weight="1"/>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="6dp"
+            android:id="@+id/peer_list_view"
+            android:layout_weight="4"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/find_peers"
+            android:id="@+id/find_peers"
+            android:layout_marginBottom="6dp"
+            style="@style/button"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
 
