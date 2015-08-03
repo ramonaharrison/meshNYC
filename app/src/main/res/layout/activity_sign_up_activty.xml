@@ -59,14 +59,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/submit_button"
         style="@style/button"
-        android:text="Submit"/>
+        android:text="submit"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/contact_invite_button"
         style="@style/button"
-        android:text="Invite from contacts"/>
+        android:text="invite contacts"/>
 
 
     <TextView
