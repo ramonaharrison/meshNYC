@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 
@@ -31,6 +32,7 @@ public class ChooseContactsActivity extends ListActivity {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_choose_contacts);
 
+        Toast.makeText(getApplicationContext(), "Select all contacts you would like to send an invite to", Toast.LENGTH_LONG).show();
 
         //create a cursor to query the Contacts on the device to start populating a listview
         Cursor1 = getContentResolver().query(
@@ -58,7 +60,9 @@ public class ChooseContactsActivity extends ListActivity {
                 phoneNumbers = new ArrayList<String>();
                 String data = Cursor1.getString(Cursor1.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 phoneNumbers.add(data);
+                TextView displayName = (TextView) view.findViewById(R.id.display_name);
                 view.setBackgroundColor(Color.parseColor("#80c1e3"));
+                displayName.setTextColor(Color.WHITE);
                 Log.d("data", "" + data);
 
                 String itemText = data;
