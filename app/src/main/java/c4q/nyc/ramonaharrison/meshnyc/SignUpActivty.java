@@ -56,8 +56,8 @@ public class SignUpActivty extends ActionBarActivity {
 
 
         if (!zipCode.equals("") && !userName.equals("")) {
-            savedZip.setText("your zip code is:   " + zipCode);
-            savedUsername.setText("your username is:   " + userName.toUpperCase());
+            savedZip.setText("your zip code is:   \n" + zipCode);
+            savedUsername.setText("your username is:   \n" + userName.toUpperCase());
         }
 
         //submitting new zip code/moving on to next screen
@@ -72,8 +72,8 @@ public class SignUpActivty extends ActionBarActivity {
                     userName = firstName.getText().toString() + lastName.getText().toString();
                     editor.putString(USERNAME_CODE_KEY, userName);
                     editor.apply();
-                    savedZip.setText("your zip code is: " + ZIP_CODE.getText().toString());
-                    savedUsername.setText("your username is:   " + userName);
+                    savedZip.setText("your zip code is:   \n" + ZIP_CODE.getText().toString());
+                    savedUsername.setText("your username is:   \n" + userName);
                 } else {
 
                 }

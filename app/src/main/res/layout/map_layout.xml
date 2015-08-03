@@ -18,6 +18,12 @@
         android:gravity="center_horizontal"
         android:textSize="40sp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Zoom in to see more markers of local shelters"/>
+
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/map"
