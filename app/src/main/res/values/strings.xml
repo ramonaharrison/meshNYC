@@ -5,7 +5,7 @@
 
 
     <string name="welcome_message">Welcome to MeshNYC please follow this setup to get the most out this app</string>
-    <string name="zip_code_hint">please enter your zipcode</string>
+    <string name="zip_code_hint">Zipcode</string>
     <string name="name_field_hint">please enter your name</string>
     <string name="user_name_field_hint">please enter the username seen by other devices</string>
     <string name="submit_button">submit</string>
