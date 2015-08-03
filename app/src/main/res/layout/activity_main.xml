@@ -63,7 +63,7 @@
             android:layout_gravity="center_horizontal"
             android:padding="8dp"
             android:layout_weight="1"
-            android:text="Public Alerts" />
+            android:text="public alerts" />
 
 
         <Button
@@ -74,7 +74,7 @@
             android:layout_gravity="center_horizontal"
             android:padding="8dp"
             android:layout_weight="1"
-            android:text="NYC Emergency Twitter" />
+            android:text="NYC emergency twitter" />
 
     </LinearLayout>
 
