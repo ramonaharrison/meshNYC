@@ -55,7 +55,6 @@ public class PeerActivity extends ActionBarActivity implements ChannelListener, 
 
 
     final static String TAG = "PeerActivity";
-
     final private String SEARCHING_FOR_PEERS = "Searching for peers...";
     final private String CONNECTED_TO_PEER = "Connected to peer.";
     final private String NO_PEERS = "No peers available.";
