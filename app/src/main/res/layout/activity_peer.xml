@@ -47,7 +47,7 @@
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Message"
+            android:hint="Enter message"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
             android:id="@+id/message_edit_text"/>
