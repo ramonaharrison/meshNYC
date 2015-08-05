@@ -1,6 +1,6 @@
 # meshNYC
 
-meshNYC is a prototype p2p messaging app for the Android platform (API level 14+). It was created in less than 48 hours for the Access Code 2.1 Hackthon on August 1 - 3, 2015, where it won first place.
+meshNYC is a p2p messaging prototype for the Android platform (API level 14+). It allows users to relay messages between nearby devices without a central router or cellular service. It was created in less than 48 hours for the Access Code 2.1 Hackthon on August 1 - 3, 2015, where it won first place.
 
 ## Installation
 
