@@ -22,12 +22,11 @@ TODO: Write usage instructions
 
 Created by:
 
-John Gomez
-Ramona Harrison
-Yuliya Kaleda
-Alvin Kuang
-Hoshiko Oki
-
+ * John Gomez
+ * Ramona Harrison
+ * Yuliya Kaleda
+ * Alvin Kuang
+ * Hoshiko Oki
 
 ## License
 
