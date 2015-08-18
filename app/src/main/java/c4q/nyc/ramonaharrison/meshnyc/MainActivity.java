@@ -106,8 +106,6 @@ public class MainActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "No internet connection", Toast.LENGTH_SHORT).show();
                 }
             });
-
-        
         }
     }
 
@@ -120,8 +118,9 @@ public class MainActivity extends Activity {
         if (ni == null) {
             // There are no active networks.
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
 }
