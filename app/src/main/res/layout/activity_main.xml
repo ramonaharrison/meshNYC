@@ -9,22 +9,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <TextView
-        style="@style/header"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:gravity="center_horizontal"
-        android:text="meshNYC"
-        android:textSize="50sp"
-        android:layout_weight="4"/>
+    <!--<TextView-->
+        <!--style="@style/header"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:gravity="center_horizontal"-->
+        <!--android:text="meshNYC"-->
+        <!--android:textSize="50sp"-->
+        <!--android:layout_weight="4"/>-->
 
     <ImageView
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:padding="5dp"
         android:layout_gravity="center_horizontal"
-        android:padding="10dp"
         android:layout_weight="10"
-        android:src="@drawable/meshnyclogo" />
+        android:src="@drawable/meshnyc" />
 
 
     <Button

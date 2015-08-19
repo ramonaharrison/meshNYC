@@ -19,6 +19,7 @@ import android.widget.TwoLineListItem;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -53,12 +54,13 @@ public class MessageActivity extends Activity implements RecentMessagesAsync.MyL
 
                 // Must always return just a View.
                 View view = super.getView(position, convertView, parent);
+                java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
 
                 Message message = messages.get(position);
                 TextView text1 = (TextView) view.findViewById(android.R.id.text1);
                 TextView text2 = (TextView) view.findViewById(android.R.id.text2);
                 text1.setText(message.getName());
-                text2.setText(message.getMessageContent());
+                text2.setText(message.getMessageContent() + "  " +currentTimestamp);
                 return view;
             }
         };
