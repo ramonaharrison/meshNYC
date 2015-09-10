@@ -2,7 +2,7 @@
 
 meshNYC is a p2p messaging prototype for the Android platform (API level 14+). It allows users to relay messages between nearby devices without a central router or cellular service. It was created in less than 48 hours for the Access Code 2.1 Hackthon on August 1 - 3, 2015.
 
-meshNYC utilizes mesh network technology to relay text messages directly between phone's via the built-in Wifi chips. This allows for communication in emergency situations where traditional cell service is unusable. The app also stores and distributes data from a NYC Social Services API to populate a cached map of local shelters and emergency services, along with providing quick access to the NYC emergency alert twitter + Google’s public alerts service when a wider network connection is available. 
+meshNYC utilizes mesh network technology to relay text messages directly between devices via built-in Wifi chips. This allows for communication in emergency situations where traditional cell service is unusable. The app also stores and distributes data from a NYC Social Services API to populate a cached map of local shelters and emergency services, along with providing quick access to the NYC emergency alert twitter + Google’s public alerts service when a wider network connection is available. 
 
 meshNYC was chosen as the winner of the hackathon by a panel of judges from across the NY tech community including Hillary Clinton’s CTO, the chairman of NY Angels, the NYTM Director of Operations, and a founder of the Robin Hood Foundation.
 
