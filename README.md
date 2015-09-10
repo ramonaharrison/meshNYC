@@ -11,9 +11,7 @@ For more information: http://slides.com/ramonaharrison/meshnyc/
 
 ## Installation
 
-'''
 git clone https://github.com/ramonaharrison/meshNYC/
-'''
 
 Import to Android Studio with build.gradle. Compile and load to your Android device.
 
