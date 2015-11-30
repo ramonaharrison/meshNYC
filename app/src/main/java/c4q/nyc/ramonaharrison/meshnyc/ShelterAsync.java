@@ -35,7 +35,7 @@ public class ShelterAsync extends AsyncTask<Void, Void, Void> {
         helper.updateTableShelters();
 
 
-        String result = null;
+        String result = "";
         try {
             //open connection
             result = openConnection();
